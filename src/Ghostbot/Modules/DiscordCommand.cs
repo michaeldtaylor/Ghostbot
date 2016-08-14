@@ -9,12 +9,7 @@ namespace Ghostbot.Modules
         readonly List<string> _aliases = new List<string>();
         readonly List<DiscordParameter> _parameters = new List<DiscordParameter>();
 
-        protected DiscordCommand(DiscordModule module)
-        {
-            Module = module;
-        }
-
-        DiscordModule Module { get; }
+        public DiscordModule Module { get; set; }
 
         protected abstract string Name { get; }
 

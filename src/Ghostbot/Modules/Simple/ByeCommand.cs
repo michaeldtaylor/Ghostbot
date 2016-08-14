@@ -5,7 +5,7 @@ namespace Ghostbot.Modules.Simple
 {
     public class ByeCommand : DiscordCommand
     {
-        public ByeCommand(DiscordModule module) : base(module)
+        public ByeCommand()
         {
             AddParameter(new DiscordParameter("person"));
             AddAlias("bb");

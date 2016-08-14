@@ -1,12 +1,12 @@
 ﻿namespace Ghostbot.Modules.Guardian
 {
-    public class GuardianModule : DiscordModule
+    public class GuardiansModule : DiscordModule
     {
         public const string Name = "Guardians";
 
-        public GuardianModule()
+        public GuardiansModule()
         {
-            Commands.Add(new ListCommand(this));
+            AddCommand<ListCommand>();
         }
 
         protected override string Prefix => "guardian";

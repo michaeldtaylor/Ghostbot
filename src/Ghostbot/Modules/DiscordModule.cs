@@ -1,11 +1,23 @@
 ﻿using System.Collections.Generic;
+using Autofac;
 using Discord.Modules;
 
 namespace Ghostbot.Modules
 {
     public abstract class DiscordModule : IModule
     {
-        protected readonly List<DiscordCommand> Commands = new List<DiscordCommand>();
+        readonly List<DiscordCommand> _commands = new List<DiscordCommand>();
+
+        protected void AddCommand<T>() where T : DiscordCommand
+        {
+            using (var commandScope = Program.Container.BeginLifetimeScope())
+            {
+                var command = commandScope.Resolve<T>();
+                command.Module = this;
+
+                _commands.Add(command);
+            }
+        }
 
         protected abstract string Prefix { get; }
 
@@ -15,7 +27,7 @@ namespace Ghostbot.Modules
             {
                 //cgb.AddCheck();
 
-                Commands.ForEach(c => c.Register(commandGroupBuilder));
+                _commands.ForEach(c => c.Register(commandGroupBuilder));
             });
         }
     }

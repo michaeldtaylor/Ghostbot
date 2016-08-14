@@ -6,8 +6,8 @@
 
         public SimpleModule()
         {
-            Commands.Add(new GreetCommand(this));
-            Commands.Add(new ByeCommand(this));
+            AddCommand<GreetCommand>();
+            AddCommand<ByeCommand>();
         }
 
         protected override string Prefix => "simple";

@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Ghostbot.Configuration;
@@ -7,14 +6,14 @@ using Ghostbot.Domain;
 using Manticore.DestinySdk.Core;
 using Manticore.DestinySdk.Core.Model;
 
-namespace Ghostbot.Modules.Guardian
+namespace Ghostbot.Modules.Account
 {
-    public class ListCommand : DiscordCommand
+    public class SetCommand : DiscordCommand
     {
         readonly DestinyClient _destinyClient;
         readonly IDiscordUserRepository _discordUserRepository;
 
-        public ListCommand(DestinyApiKeyProvider destinyApiKeyProvider, IDiscordUserRepository discordUserRepository)
+        public SetCommand(DestinyApiKeyProvider destinyApiKeyProvider, IDiscordUserRepository discordUserRepository)
         {
             AddParameter(new DiscordParameter("username"));
             AddParameter(new DiscordParameter("platform"));
@@ -23,9 +22,9 @@ namespace Ghostbot.Modules.Guardian
             _discordUserRepository = discordUserRepository;
         }
 
-        protected override string Name => "list";
+        protected override string Name => "set";
 
-        protected override string Description => "Lists the Guardians of a user";
+        protected override string Description => "Sets the Destiny platform and username for a Discord user";
 
         protected override async Task Execute(CommandEventArgs args)
         {
@@ -33,9 +32,17 @@ namespace Ghostbot.Modules.Guardian
             var platform = (Platform)Enum.Parse(typeof(Platform), args.GetArg("platform"));
 
             var accountSummary = await _destinyClient.GetAccountSummary(platform, username);
-            var charactersCount = accountSummary.Characters.Count();
 
-            await args.Channel.SendMessage($"{args.User.Mention} has the following number of guardians: {charactersCount}");
+            if (accountSummary != null)
+            {
+                _discordUserRepository.Add(new DiscordUser
+                {
+                    DiscordId = args.User.Mention,
+                    DestinyId = accountSummary.Id
+                });
+            }
+
+            await args.Channel.SendMessage($"{args.User.Mention} has set their Destiny platform and username!`");
         }
     }
 }

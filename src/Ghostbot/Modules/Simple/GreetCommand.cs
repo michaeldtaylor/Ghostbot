@@ -5,7 +5,7 @@ namespace Ghostbot.Modules.Simple
 {
     public class GreetCommand : DiscordCommand
     {
-        public GreetCommand(DiscordModule module) : base(module)
+        public GreetCommand()
         {
             AddParameter(new DiscordParameter("person"));
             AddAlias("hi");

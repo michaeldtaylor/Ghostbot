@@ -2,13 +2,12 @@
 {
     public class AccountModule : DiscordModule
     {
-        public const string Name = "Account";
-
         public AccountModule()
         {
             AddCommand<SetCommand>();
         }
 
+        public override string Name => "Account";
         protected override string Prefix => "account";
     }
 }

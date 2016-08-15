@@ -5,26 +5,22 @@ using SQLite;
 
 namespace Ghostbot.Infrastructure
 {
-    public class SQLiteHelper
+    public static class SQLiteHelper
     {
-        static readonly string FilePath;
-
-        static SQLiteHelper()
-        {
-            var folder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            FilePath = Path.Combine(folder, "ghostbot.db");
-        }
+        public const string DatabaseFileName = "ghostbot.db";
+        public static readonly string DatabasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), DatabaseFileName);
 
         public static void CreateDatabase()
         {
-            var connection = GetConnection();
-
-            connection.CreateTable<DiscordUser>();
+            WithConnection(c => c.CreateTable<DiscordUser>());
         }
 
-        public static SQLiteConnection GetConnection()
+        public static TResult WithConnection<TResult>(Func<SQLiteConnection, TResult> func)
         {
-            return new SQLiteConnection(FilePath);
+            using (var connection = new SQLiteConnection(DatabasePath))
+            {
+                return func(connection);
+            }
         }
     }
 }

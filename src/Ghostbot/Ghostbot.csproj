@@ -119,7 +119,7 @@
     <Compile Include="Modules\DiscordParameter.cs" />
     <Compile Include="Modules\Account\AccountModule.cs" />
     <Compile Include="Modules\Account\SetCommand.cs" />
-    <Compile Include="Modules\Guardian\GuardiansModule.cs" />
+    <Compile Include="Modules\Guardian\GuardianModule.cs" />
     <Compile Include="Modules\Guardian\ListCommand.cs" />
     <Compile Include="Modules\Simple\ByeCommand.cs" />
     <Compile Include="Modules\Simple\GreetCommand.cs" />

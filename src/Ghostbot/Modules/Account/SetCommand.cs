@@ -38,7 +38,9 @@ namespace Ghostbot.Modules.Account
                 _discordUserRepository.Add(new DiscordUser
                 {
                     DiscordId = args.User.Mention,
-                    DestinyId = accountSummary.Id
+                    DestinyId = accountSummary.Id,
+                    DestinyUsername = username,
+                    DestintPlatform = platform.ToString()
                 });
             }
 

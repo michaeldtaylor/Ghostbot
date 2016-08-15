@@ -15,9 +15,9 @@ namespace Ghostbot.Configuration
         {
             try
             {
-                var token = _configurationProvider.GetConfigurationVariable(ApiKeyVariable);
+                var apiKey = _configurationProvider.GetConfigurationVariable(ApiKeyVariable);
 
-                return token;
+                return apiKey;
             }
             catch (GhostbotConfigurationException)
             {

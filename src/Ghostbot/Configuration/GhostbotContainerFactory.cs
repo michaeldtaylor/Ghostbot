@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
 using Autofac;
+using Discord.Modules;
 using Ghostbot.Domain;
 using Ghostbot.Infrastructure;
+using Ghostbot.Modules;
 
 namespace Ghostbot.Configuration
 {
@@ -27,11 +29,11 @@ namespace Ghostbot.Configuration
                 .AsSelf();
 
             builder.RegisterAssemblyTypes(assembly)
-                .Where(t => t.Name.EndsWith("Module"))
-                .AsSelf();
+                .Where(t => typeof(DiscordModule).IsAssignableFrom(t))
+                .As<IModule>();
 
             builder.RegisterAssemblyTypes(assembly)
-                .Where(t => t.Name.EndsWith("Command"))
+                .Where(t => typeof(DiscordCommand).IsAssignableFrom(t))
                 .AsSelf();
 
             return builder.Build();

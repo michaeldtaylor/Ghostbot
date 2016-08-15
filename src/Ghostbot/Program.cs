@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac;
 using Discord;
@@ -6,9 +7,7 @@ using Discord.Commands;
 using Discord.Modules;
 using Ghostbot.Configuration;
 using Ghostbot.Infrastructure;
-using Ghostbot.Modules.Account;
-using Ghostbot.Modules.Guardian;
-using Ghostbot.Modules.Simple;
+using Ghostbot.Modules;
 
 namespace Ghostbot
 {
@@ -45,20 +44,27 @@ namespace Ghostbot
                 x.HelpMode = HelpMode.Public;
             });
 
-            RegisterModules();
+            RegisterActiveModules();
 
             _client.ExecuteAndWait(async () => await ConnectBot());
         }
 
-        void RegisterModules()
+        void RegisterActiveModules()
         {
-            var modules = _client.GetService<ModuleService>();
-
             using (var moduleScope = Container.BeginLifetimeScope())
             {
-                modules.Add(moduleScope.Resolve<SimpleModule>(), SimpleModule.Name, ModuleFilter.None);
-                modules.Add(moduleScope.Resolve<AccountModule>(), AccountModule.Name, ModuleFilter.None);
-                modules.Add(moduleScope.Resolve<GuardiansModule>(), GuardiansModule.Name, ModuleFilter.None);
+                var modules = moduleScope.Resolve<IEnumerable<IModule>>();
+                var moduleService = _client.GetService<ModuleService>();
+
+                foreach (var module in modules)
+                {
+                    var discordModule = module as DiscordModule;
+
+                    if (discordModule != null && discordModule.IsActive)
+                    {
+                        moduleService.Add(module, discordModule.Name, discordModule.Filter);
+                    }
+                }
             }
         }
 
@@ -66,13 +72,15 @@ namespace Ghostbot
         {
             try
             {
+                string token;
+
                 using (var configurationScope = Container.BeginLifetimeScope())
                 {
                     var discordTokenProvider = configurationScope.Resolve<DiscordBotTokenProvider>();
-                    var token = discordTokenProvider.GetBotToken();
-
-                    await _client.Connect(token).ConfigureAwait(false);
+                    token = discordTokenProvider.GetBotToken();
                 }
+
+                await _client.Connect(token).ConfigureAwait(false);
             }
             catch (DiscordBotTokenProviderException ex)
             {

@@ -5,29 +5,21 @@ namespace Ghostbot.Infrastructure
 {
     public class DiscordUserRepository : IDiscordUserRepository
     {
-        public string GetDestinyId(string discordId)
+        public DiscordUser Get(string discordId)
         {
-            using (var connection = SQLiteHelper.GetConnection())
-            {
-                var user = connection.Table<DiscordUser>().SingleOrDefault(u => u.DiscordId == discordId);
-
-                return user?.DestinyId;
-            }
+            return SQLiteHelper.WithConnection(c => c.Table<DiscordUser>().SingleOrDefault(u => u.DiscordId == discordId));
         }
 
         public void Add(DiscordUser discordUser)
         {
-            var user = GetDestinyId(discordUser.DiscordId);
+            var user = Get(discordUser.DiscordId);
 
             if (user != null)
             {
                 return;
             }
 
-            using (var connection = SQLiteHelper.GetConnection())
-            {
-                connection.Insert(discordUser);
-            }
+            SQLiteHelper.WithConnection(c => c.Insert(discordUser));
         }
     }
 }

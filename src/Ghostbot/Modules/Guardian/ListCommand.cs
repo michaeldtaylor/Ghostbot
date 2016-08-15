@@ -16,8 +16,8 @@ namespace Ghostbot.Modules.Guardian
 
         public ListCommand(DestinyApiKeyProvider destinyApiKeyProvider, IDiscordUserRepository discordUserRepository)
         {
-            AddParameter(new DiscordParameter("username"));
-            AddParameter(new DiscordParameter("platform"));
+            AddParameter(new DiscordParameter("username", ParameterType.Optional));
+            AddParameter(new DiscordParameter("platform", ParameterType.Optional));
 
             _destinyClient = new DestinyClient(destinyApiKeyProvider.GetApiKey());
             _discordUserRepository = discordUserRepository;
@@ -29,8 +29,21 @@ namespace Ghostbot.Modules.Guardian
 
         protected override async Task Execute(CommandEventArgs args)
         {
-            var username = args.GetArg("username");
-            var platform = (Platform)Enum.Parse(typeof(Platform), args.GetArg("platform"));
+            var user = _discordUserRepository.Get(args.User.Mention);
+
+            string username;
+            Platform platform;
+
+            if (user == null)
+            {
+                username = args.GetArg("username");
+                platform = (Platform)Enum.Parse(typeof(Platform), args.GetArg("platform"));
+            }
+            else
+            {
+                username = user.DestinyUsername;
+                platform = (Platform)Enum.Parse(typeof(Platform), user.DestintPlatform);
+            }
 
             var accountSummary = await _destinyClient.GetAccountSummary(platform, username);
             var charactersCount = accountSummary.Characters.Count();

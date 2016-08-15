@@ -8,6 +8,14 @@ namespace Ghostbot.Modules
     {
         readonly List<DiscordCommand> _commands = new List<DiscordCommand>();
 
+        public abstract string Name { get; }
+
+        public virtual ModuleFilter Filter => ModuleFilter.None;
+
+        public virtual bool IsActive => true;
+
+        protected abstract string Prefix { get; }
+
         protected void AddCommand<T>() where T : DiscordCommand
         {
             using (var commandScope = Program.Container.BeginLifetimeScope())
@@ -19,7 +27,6 @@ namespace Ghostbot.Modules
             }
         }
 
-        protected abstract string Prefix { get; }
 
         public void Install(ModuleManager manager)
         {

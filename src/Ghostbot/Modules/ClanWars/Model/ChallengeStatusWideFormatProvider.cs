@@ -12,7 +12,7 @@ namespace Ghostbot.Modules.ClanWars.Model
 
             builder.AppendLine($"Issuer: {challengeStatus.Header.Issuer}");
             builder.AppendLine($"Event:  {challengeStatus.Header.EventTitle} ({challengeStatus.Header.EventUri})");
-            builder.AppendLine($"Dates:  {challengeStatus.Header.Dates}");
+            builder.AppendLine($"Dates:  {challengeStatus.Header.FromDate} - {challengeStatus.Header.ToDate}");
             builder.AppendLine();
             builder.AppendLine($"{nameof(ClanStatusRow.Rank).PadRight(6)}\t{nameof(ClanStatusRow.Clan).PadRight(30)}\t{nameof(ClanStatusRow.Score).PadRight(10)}\t{nameof(ClanStatusRow.Active).PadRight(10)}\t{nameof(ClanStatusRow.Total).PadRight(10)}");
             builder.AppendLine();

@@ -13,7 +13,7 @@ namespace Ghostbot.Modules.ClanWars
     public class StatusCommand : DiscordCommand
     {
         const int DefaultChallengeId = 142;
-        const string ClanWarsBaseUri = "http://destinyclanwars.com";
+        static readonly Uri ClanWarsBaseUri = new Uri("http://destinyclanwars.com");
 
         readonly Dictionary<ChallengeStatusFormat, IChallengeStatusFormatProvider> _challengeStatusFormatProviderMap;
         
@@ -50,7 +50,7 @@ namespace Ghostbot.Modules.ClanWars
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(ClanWarsBaseUri);
+                client.BaseAddress = ClanWarsBaseUri;
                 client.DefaultRequestHeaders.Accept.Clear();
 
                 var response = await client.GetAsync($"/challenges/view/{challengeId}");
@@ -91,12 +91,14 @@ namespace Ghostbot.Modules.ClanWars
             var issuedBy = spanNodes[0].InnerText.Trim().Split(':')[1].Trim();
 
             var eventAnchorNode = spanNodes[1].SelectSingleNode("a");
-            var eventUri = new Uri(ClanWarsBaseUri + eventAnchorNode.Attributes[0].Value);
+            var eventUri = new Uri(ClanWarsBaseUri, eventAnchorNode.Attributes[0].Value);
             var eventTitle = eventAnchorNode.InnerText;
 
-            var dates = spanNodes[2].InnerText.Trim();
+            var dates = spanNodes[2].InnerText.Trim('(', ')').Split('-');
+            var fromDate = dates[0].Trim();
+            var toDate = dates[1].Trim();
 
-            return new ChallengeStatusHeader(issuedBy, eventUri, eventTitle, dates);
+            return new ChallengeStatusHeader(issuedBy, eventUri, eventTitle, fromDate, toDate);
         }
     }
 }

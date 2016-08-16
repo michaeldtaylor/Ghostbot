@@ -12,7 +12,7 @@ namespace Ghostbot.Modules.ClanWars.Model
 
             builder.AppendLine($"Issuer: {challengeStatus.Header.Issuer}");
             builder.AppendLine($"Event:  {challengeStatus.Header.EventTitle} ({challengeStatus.Header.EventUri})");
-            builder.AppendLine($"Dates:  {challengeStatus.Header.Dates}");
+            builder.AppendLine($"Dates:  {challengeStatus.Header.FromDate} - {challengeStatus.Header.ToDate}");
             builder.AppendLine();
 
             foreach (var row in challengeStatus.Rows)

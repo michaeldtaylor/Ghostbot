@@ -51,6 +51,14 @@
       <HintPath>..\..\packages\Discord.Net.Modules.0.9.4\lib\net45\Discord.Net.Modules.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FileHelpers, Version=3.1.5.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
+      <HintPath>..\packages\FileHelpers.3.1.5\lib\net45\FileHelpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Manticore.DestinySdk.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Manticore.DestinySdk.Core.0.1.0\lib\net461\Manticore.DestinySdk.Core.dll</HintPath>
       <Private>True</Private>
@@ -96,6 +104,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
     <Reference Include="WebSocket4Net, Version=0.14.1.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\WebSocket4Net.0.14.1\lib\net45\WebSocket4Net.dll</HintPath>
       <Private>True</Private>
@@ -114,6 +125,12 @@
     <Compile Include="Infrastructure\DiscordUserRepository.cs" />
     <Compile Include="Domain\IDiscordUserRepository.cs" />
     <Compile Include="Infrastructure\SQLiteHelper.cs" />
+    <Compile Include="Modules\ClanWars\Model\ChallengeStatus.cs" />
+    <Compile Include="Modules\ClanWars\Model\ChallengeStatusHeader.cs" />
+    <Compile Include="Modules\ClanWars\Model\ClanStatusRow.cs" />
+    <Compile Include="Modules\ClanWars\ClanWarsModule.cs" />
+    <Compile Include="Infrastructure\HtmlTableParser.cs" />
+    <Compile Include="Modules\ClanWars\StatusCommand.cs" />
     <Compile Include="Modules\DiscordCommand.cs" />
     <Compile Include="Modules\DiscordModule.cs" />
     <Compile Include="Modules\DiscordParameter.cs" />

@@ -11,4 +11,6 @@ Permissions: https://discordapp.com/developers/docs/topics/permissions#bitwise-p
 
 How to add a Bot to a server (Guild):
 
-https://discordapp.com/oauth2/authorize?client_id=[clientId]]&scope=bot&permissions=0
+[clientId] = https://discordapp.com/developers/applications/me
+
+https://discordapp.com/oauth2/authorize?client_id=[clientId]&scope=bot&permissions=0

@@ -7,8 +7,8 @@ namespace Ghostbot.Infrastructure
 {
     public static class SQLiteHelper
     {
-        public const string DatabaseFileName = "ghostbot.db";
-        public static readonly string DatabasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), DatabaseFileName);
+        const string DatabaseFileName = "ghostbot.db";
+        static readonly string DatabasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), DatabaseFileName);
 
         public static void CreateDatabase()
         {

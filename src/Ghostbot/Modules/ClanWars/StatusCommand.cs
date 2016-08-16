@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -11,26 +12,40 @@ namespace Ghostbot.Modules.ClanWars
 {
     public class StatusCommand : DiscordCommand
     {
-        public const int DefaultChallengeId = 142;
-        public const string ClanWarsBaseUri = "http://destinyclanwars.com";
+        const int DefaultChallengeId = 142;
+        const string ClanWarsBaseUri = "http://destinyclanwars.com";
 
-        public StatusCommand()
+        readonly Dictionary<ChallengeStatusFormat, IChallengeStatusFormatProvider> _challengeStatusFormatProviderMap;
+        
+        public StatusCommand(IChallengeStatusFormatProvider[] challengeStatusFormatProviders)
         {
             AddParameter(new DiscordParameter("challengeId", ParameterType.Optional));
+            AddParameter(new DiscordParameter("format", ParameterType.Optional));
+
+            _challengeStatusFormatProviderMap = challengeStatusFormatProviders.ToDictionary(c => c.Format, c => c);
         }
 
         protected override string Name => "status";
 
-        protected override string Description => "The current status of a Clan Wars challenge";
+        protected override string Description => "The current status of a Destiny Clan Wars challenge";
 
         protected override async Task Execute(CommandEventArgs args)
         {
-            var challengeId = DefaultChallengeId;
             var challengeIdArg = args.GetArg("challengeId");
+            var formatArg = args.GetArg("format");
+
+            var challengeId = DefaultChallengeId;
 
             if (!string.IsNullOrEmpty(challengeIdArg))
             {
                 challengeId = int.Parse(challengeIdArg);
+            }
+
+            var format = ChallengeStatusFormat.Wide;
+
+            if (!string.IsNullOrEmpty(formatArg))
+            {
+                format = (ChallengeStatusFormat)Enum.Parse(typeof(ChallengeStatusFormat), formatArg);
             }
 
             using (var client = new HttpClient())
@@ -48,9 +63,12 @@ namespace Ghostbot.Modules.ClanWars
                     htmlDocument.LoadHtml(content);
 
                     var contentNode = htmlDocument.GetElementbyId("content");
-                    var clanStatus = ParseChallengeStatus(challengeId, contentNode);
+                    var challengeStatus = ParseChallengeStatus(challengeId, contentNode);
 
-                    await args.Channel.SendMessage($"Clan Wars status for challenge {challengeId}:\n\n```{clanStatus}```");
+                    var formatProvider = _challengeStatusFormatProviderMap[format];
+                    var formattedChallengeStatus = formatProvider.ApplyFormat(challengeStatus);
+
+                    await args.Channel.SendMessage($"Clan Wars status for challenge {challengeId}:\n\n```{formattedChallengeStatus}```");
                 }
             }
         }

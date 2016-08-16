@@ -48,7 +48,7 @@ namespace Ghostbot.Modules.Guardian
             var accountSummary = await _destinyClient.GetAccountSummary(platform, username);
             var charactersCount = accountSummary.Characters.Count();
 
-            await args.Channel.SendMessage($"{args.User.Mention} has the following number of guardians: {charactersCount}");
+            await args.Channel.SendMessage($"{args.User.Mention} has {charactersCount} guardians (more info coming soon! :)");
         }
     }
 }

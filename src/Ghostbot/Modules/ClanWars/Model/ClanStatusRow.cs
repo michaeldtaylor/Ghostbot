@@ -6,14 +6,14 @@ namespace Ghostbot.Modules.ClanWars.Model
     public class ClanStatusRow
     {
         [FieldOrder(1)]
-        public int Rank;
+        public int Rank { get; set; }
         [FieldOrder(2)]
-        public string Clan;
+        public string Clan { get; set; }
         [FieldOrder(3)]
-        public int Score;
+        public int Score { get; set; }
         [FieldOrder(4)]
-        public int Active;
+        public int Active { get; set; }
         [FieldOrder(5)]
-        public int Total;
+        public int Total { get; set; }
     }
 }

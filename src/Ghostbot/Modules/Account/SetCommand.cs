@@ -44,7 +44,7 @@ namespace Ghostbot.Modules.Account
                 });
             }
 
-            await args.Channel.SendMessage($"{args.User.Mention} has set their Destiny platform and username!`");
+            await args.Channel.SendMessage($"{args.User.Mention} has set their Destiny platform and username!");
         }
     }
 }

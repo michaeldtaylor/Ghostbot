@@ -127,10 +127,14 @@
     <Compile Include="Infrastructure\SQLiteHelper.cs" />
     <Compile Include="Modules\ClanWars\Model\ChallengeStatus.cs" />
     <Compile Include="Modules\ClanWars\Model\ChallengeStatusHeader.cs" />
+    <Compile Include="Modules\ClanWars\Model\ChallengeStatusNarrowFormatProvider.cs" />
+    <Compile Include="Modules\ClanWars\Model\ChallengeStatusWideFormatProvider.cs" />
     <Compile Include="Modules\ClanWars\Model\ClanStatusRow.cs" />
     <Compile Include="Modules\ClanWars\ClanWarsModule.cs" />
     <Compile Include="Infrastructure\HtmlTableParser.cs" />
+    <Compile Include="Modules\ClanWars\Model\IChallengeStatusFormatProvider.cs" />
     <Compile Include="Modules\ClanWars\StatusCommand.cs" />
+    <Compile Include="Modules\ClanWars\Model\ChallengeStatusFormat.cs" />
     <Compile Include="Modules\DiscordCommand.cs" />
     <Compile Include="Modules\DiscordModule.cs" />
     <Compile Include="Modules\DiscordParameter.cs" />

@@ -4,6 +4,7 @@ using Discord.Modules;
 using Ghostbot.Domain;
 using Ghostbot.Infrastructure;
 using Ghostbot.Modules;
+using Ghostbot.Modules.ClanWars.Model;
 
 namespace Ghostbot.Configuration
 {
@@ -35,6 +36,11 @@ namespace Ghostbot.Configuration
             builder.RegisterAssemblyTypes(assembly)
                 .Where(t => typeof(DiscordCommand).IsAssignableFrom(t))
                 .AsSelf();
+
+            // TODO: Be inside module
+            builder.RegisterAssemblyTypes(assembly)
+                .Where(t => typeof(IChallengeStatusFormatProvider).IsAssignableFrom(t))
+                .As<IChallengeStatusFormatProvider>();
 
             return builder.Build();
         }

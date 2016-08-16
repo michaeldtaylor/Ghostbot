@@ -12,7 +12,6 @@ namespace Ghostbot.Modules.ClanWars
 {
     public class StatusCommand : DiscordCommand
     {
-        const int DefaultChallengeId = 142;
         static readonly Uri ClanWarsBaseUri = new Uri("http://destinyclanwars.com");
 
         readonly Dictionary<ChallengeStatusFormat, IChallengeStatusFormatProvider> _challengeStatusFormatProviderMap;
@@ -34,14 +33,13 @@ namespace Ghostbot.Modules.ClanWars
             var challengeIdArg = args.GetArg("challengeId");
             var formatArg = args.GetArg("format");
 
-            var challengeId = DefaultChallengeId;
+            var challengeId = ((ClanWarsModuleConfiguration)Module.Configuration).DefaultChallengeId;
+            var format = ((ClanWarsModuleConfiguration)Module.Configuration).DefaultStatusFormat;
 
             if (!string.IsNullOrEmpty(challengeIdArg))
             {
                 challengeId = int.Parse(challengeIdArg);
             }
-
-            var format = ChallengeStatusFormat.Wide;
 
             if (!string.IsNullOrEmpty(formatArg))
             {

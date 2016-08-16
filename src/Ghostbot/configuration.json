@@ -1,0 +1,20 @@
+﻿{
+  "SimpleModuleConfiguration": {
+    "IsActive": false,
+    "Filter": "None"
+  },
+  "AccountModuleConfiguration": {
+    "IsActive": false,
+    "Filter": "None"
+  },
+  "GuardianModuleConfiguration": {
+    "IsActive": false,
+    "Filter": "None"
+  },
+  "ClanWarsModuleConfiguration": {
+    "IsActive": true,
+    "Filter": "None",
+    "DefaultChallengeId": 142,
+    "DefaultStatusFormat": "Narrow" 
+  }
+}

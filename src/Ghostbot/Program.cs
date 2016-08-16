@@ -20,12 +20,8 @@ namespace Ghostbot
 
         static void Main(string[] args) => new Program().Start();
 
-        public static IContainer Container { get; private set; }
-
         void Start()
         {
-            Container = GhostbotContainerFactory.BuildContainer();
-
             SQLiteHelper.CreateDatabase();
 
             _client = new DiscordClient(x =>
@@ -51,7 +47,7 @@ namespace Ghostbot
 
         void RegisterActiveModules()
         {
-            using (var moduleScope = Container.BeginLifetimeScope())
+            using (var moduleScope = GhostbotContainer.Current.BeginLifetimeScope())
             {
                 var modules = moduleScope.Resolve<IEnumerable<IModule>>();
                 var moduleService = _client.GetService<ModuleService>();
@@ -72,9 +68,11 @@ namespace Ghostbot
         {
             try
             {
+                Console.WriteLine("Starting Ghostbot...");
+
                 string token;
 
-                using (var configurationScope = Container.BeginLifetimeScope())
+                using (var configurationScope = GhostbotContainer.Current.BeginLifetimeScope())
                 {
                     var discordTokenProvider = configurationScope.Resolve<DiscordBotTokenProvider>();
                     token = discordTokenProvider.GetBotToken();

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using Autofac;
 using Discord.Modules;
 using Ghostbot.Domain;
@@ -8,9 +9,13 @@ using Ghostbot.Modules.ClanWars.Model;
 
 namespace Ghostbot.Configuration
 {
-    public static class GhostbotContainerFactory
+    public static class GhostbotContainer
     {
-        public static IContainer BuildContainer()
+        static readonly Lazy<IContainer> LazyContainer = new Lazy<IContainer>(BuildContainer);
+        
+        public static IContainer Current => LazyContainer.Value;
+
+        static IContainer BuildContainer()
         {
             var assembly = Assembly.GetExecutingAssembly();
             var builder = new ContainerBuilder();

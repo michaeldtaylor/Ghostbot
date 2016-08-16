@@ -4,6 +4,7 @@
     {
         public ClanWarsModule()
         {
+            SetConfiguration<ClanWarsModuleConfiguration>();
             AddCommand<StatusCommand>();
         }
 

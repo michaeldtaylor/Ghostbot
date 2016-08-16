@@ -4,6 +4,7 @@
     {
         public GuardianModule()
         {
+            SetConfiguration<GuardianModuleConfiguration>();
             AddCommand<ListCommand>();
         }
 

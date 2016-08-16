@@ -4,6 +4,7 @@
     {
         public AccountModule()
         {
+            SetConfiguration<AccountModuleConfiguration>();
             AddCommand<SetCommand>();
         }
 

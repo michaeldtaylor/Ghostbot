@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Autofac;
 using Discord.Modules;
+using Ghostbot.Configuration;
 
 namespace Ghostbot.Modules
 {
@@ -10,15 +11,22 @@ namespace Ghostbot.Modules
 
         public abstract string Name { get; }
 
-        public virtual ModuleFilter Filter => ModuleFilter.None;
+        public bool IsActive => Configuration.IsActive;
 
-        public virtual bool IsActive => true;
+        public ModuleFilter Filter => Configuration.Filter;
+
+        public IDiscordModuleConguration Configuration { get; private set; }
 
         protected abstract string Prefix { get; }
 
+        protected void SetConfiguration<T>() where T : IDiscordModuleConguration
+        {
+            Configuration = DiscordModuleConfigurationProvider.GetModuleConfiguration<T>();
+        }
+
         protected void AddCommand<T>() where T : DiscordCommand
         {
-            using (var commandScope = Program.Container.BeginLifetimeScope())
+            using (var commandScope = GhostbotContainer.Current.BeginLifetimeScope())
             {
                 var command = commandScope.Resolve<T>();
                 command.Module = this;
@@ -26,7 +34,6 @@ namespace Ghostbot.Modules
                 _commands.Add(command);
             }
         }
-
 
         public void Install(ModuleManager manager)
         {

@@ -113,6 +113,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\AssemblyHelper.cs" />
+    <Compile Include="Configuration\IDiscordModuleConguration.cs" />
+    <Compile Include="Configuration\DiscordModuleConfigurationProvider.cs" />
     <Compile Include="Configuration\DesktinyApiKeyProviderException.cs" />
     <Compile Include="Configuration\DestinyApiKeyProvider.cs" />
     <Compile Include="Configuration\DiscordBotTokenProviderException.cs" />
@@ -120,11 +123,14 @@
     <Compile Include="Configuration\EnvironmentVariableConfigurationProvider.cs" />
     <Compile Include="Configuration\GhostbotConfigurationException.cs" />
     <Compile Include="Configuration\IConfigurationProvider.cs" />
-    <Compile Include="Configuration\GhostbotContainerFactory.cs" />
+    <Compile Include="Configuration\GhostbotContainer.cs" />
+    <Compile Include="Configuration\ConfigurationReader.cs" />
     <Compile Include="Domain\DiscordUser.cs" />
     <Compile Include="Infrastructure\DiscordUserRepository.cs" />
     <Compile Include="Domain\IDiscordUserRepository.cs" />
     <Compile Include="Infrastructure\SQLiteHelper.cs" />
+    <Compile Include="Modules\Account\AccountModuleConfiguration.cs" />
+    <Compile Include="Modules\ClanWars\ClanWarsModuleConfiguration.cs" />
     <Compile Include="Modules\ClanWars\Model\ChallengeStatus.cs" />
     <Compile Include="Modules\ClanWars\Model\ChallengeStatusHeader.cs" />
     <Compile Include="Modules\ClanWars\Model\ChallengeStatusNarrowFormatProvider.cs" />
@@ -140,8 +146,10 @@
     <Compile Include="Modules\DiscordParameter.cs" />
     <Compile Include="Modules\Account\AccountModule.cs" />
     <Compile Include="Modules\Account\SetCommand.cs" />
+    <Compile Include="Modules\Guardian\GuardianModuleConfiguration.cs" />
     <Compile Include="Modules\Guardian\GuardianModule.cs" />
     <Compile Include="Modules\Guardian\ListCommand.cs" />
+    <Compile Include="Modules\Simple\SimpleModuleConfiguration.cs" />
     <Compile Include="Modules\Simple\ByeCommand.cs" />
     <Compile Include="Modules\Simple\GreetCommand.cs" />
     <Compile Include="Modules\Simple\SimpleModule.cs" />
@@ -153,6 +161,9 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="configuration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

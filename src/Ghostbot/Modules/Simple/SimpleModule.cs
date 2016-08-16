@@ -4,12 +4,12 @@
     {
         public SimpleModule()
         {
+            SetConfiguration<SimpleModuleConfiguration>();
             AddCommand<GreetCommand>();
             AddCommand<ByeCommand>();
         }
 
         public override string Name => "Simple";
-        public override bool IsActive => false;
         protected override string Prefix => "simple";
     }
 }

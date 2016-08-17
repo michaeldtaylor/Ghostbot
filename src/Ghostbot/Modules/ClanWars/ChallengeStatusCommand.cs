@@ -12,7 +12,6 @@ namespace Ghostbot.Modules.ClanWars
 {
     public class ChallengeStatusCommand : DiscordCommand
     {
-
         readonly Dictionary<ChallengeStatusFormat, IChallengeStatusFormatProvider> _challengeStatusFormatProviderMap;
 
         public ChallengeStatusCommand(IChallengeStatusFormatProvider[] challengeStatusFormatProviders)

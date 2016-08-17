@@ -22,8 +22,10 @@ namespace Ghostbot.Infrastructure
                 {
                     HtmlLink htmlLink;
 
-                    return TryParseLink(c, baseUri, out htmlLink) ? htmlLink.ToString() : c.InnerText;
-                });
+                    var result = TryParseLink(c, baseUri, out htmlLink) ? htmlLink.ToString() : c.InnerText;
+
+                    return $"\"{result}\"";
+                }).ToList();
 
                 var csvLine = string.Join(",", cellText);
 
@@ -39,6 +41,11 @@ namespace Ghostbot.Infrastructure
         {
             var anchorNode = contentNode.SelectSingleNode("a");
             var uriString = anchorNode.Attributes[0].Value;
+
+            if (uriString.StartsWith("http"))
+            {
+                
+            }
 
             return new HtmlLink
             {

@@ -517,7 +517,7 @@
         </xs:attribute>
         <xs:attribute name="header" type="SimpleLayoutAttribute">
           <xs:annotation>
-            <xs:documentation>Header.</xs:documentation>
+            <xs:documentation>Stats.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="footer" type="SimpleLayoutAttribute">
@@ -649,7 +649,7 @@
         </xs:attribute>
         <xs:attribute name="header" type="SimpleLayoutAttribute">
           <xs:annotation>
-            <xs:documentation>Header.</xs:documentation>
+            <xs:documentation>Stats.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="footer" type="SimpleLayoutAttribute">
@@ -844,7 +844,7 @@
         </xs:attribute>
         <xs:attribute name="header" type="SimpleLayoutAttribute">
           <xs:annotation>
-            <xs:documentation>Header.</xs:documentation>
+            <xs:documentation>Stats.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="footer" type="SimpleLayoutAttribute">
@@ -999,7 +999,7 @@
         </xs:attribute>
         <xs:attribute name="header" type="SimpleLayoutAttribute">
           <xs:annotation>
-            <xs:documentation>Header.</xs:documentation>
+            <xs:documentation>Stats.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="footer" type="SimpleLayoutAttribute">
@@ -1395,7 +1395,7 @@
         </xs:attribute>
         <xs:attribute name="header" type="SimpleLayoutAttribute">
           <xs:annotation>
-            <xs:documentation>Header.</xs:documentation>
+            <xs:documentation>Stats.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="footer" type="SimpleLayoutAttribute">
@@ -2140,7 +2140,7 @@
           <xs:element name="delimiter" minOccurs="0" maxOccurs="1" type="NLog.Layouts.CsvColumnDelimiterMode" />
           <xs:element name="quoteChar" minOccurs="0" maxOccurs="1" type="xs:string" />
           <xs:element name="quoting" minOccurs="0" maxOccurs="1" type="NLog.Layouts.CsvQuotingMode" />
-          <xs:element name="withHeader" minOccurs="0" maxOccurs="1" type="xs:boolean" />
+          <xs:element name="withStats" minOccurs="0" maxOccurs="1" type="xs:boolean" />
         </xs:choice>
         <xs:attribute name="footer" type="SimpleLayoutAttribute">
           <xs:annotation>
@@ -2149,7 +2149,7 @@
         </xs:attribute>
         <xs:attribute name="header" type="SimpleLayoutAttribute">
           <xs:annotation>
-            <xs:documentation>Header layout.</xs:documentation>
+            <xs:documentation>Stats layout.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="layout" type="SimpleLayoutAttribute">
@@ -2177,7 +2177,7 @@
             <xs:documentation>Quoting mode.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="withHeader" type="xs:boolean">
+        <xs:attribute name="withStats" type="xs:boolean">
           <xs:annotation>
             <xs:documentation>Indicates whether CVS should include header.</xs:documentation>
           </xs:annotation>
@@ -2244,7 +2244,7 @@
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
-  <xs:complexType name="LayoutWithHeaderAndFooter">
+  <xs:complexType name="LayoutWithStatsAndFooter">
     <xs:complexContent>
       <xs:extension base="Layout">
         <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -2259,7 +2259,7 @@
         </xs:attribute>
         <xs:attribute name="header" type="SimpleLayoutAttribute">
           <xs:annotation>
-            <xs:documentation>Header layout.</xs:documentation>
+            <xs:documentation>Stats layout.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="layout" type="SimpleLayoutAttribute">

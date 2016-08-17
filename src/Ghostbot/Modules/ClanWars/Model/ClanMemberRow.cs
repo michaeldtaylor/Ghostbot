@@ -1,4 +1,6 @@
+using System;
 using FileHelpers;
+using Ghostbot.Infrastructure;
 
 namespace Ghostbot.Modules.ClanWars.Model
 {
@@ -7,7 +9,7 @@ namespace Ghostbot.Modules.ClanWars.Model
     {
         [FieldOrder(1)]
         [FieldQuoted('"', QuoteMode.AlwaysQuoted, MultilineMode.NotAllow)]
-        public string Name;
+        public string NameHtmlLink;
         [FieldOrder(2)]
         [FieldQuoted('"', QuoteMode.AlwaysQuoted, MultilineMode.NotAllow)]
         public string BungieId;
@@ -26,5 +28,22 @@ namespace Ghostbot.Modules.ClanWars.Model
         [FieldOrder(7)]
         [FieldQuoted('"', QuoteMode.AlwaysQuoted, MultilineMode.NotAllow)]
         public string LastPlayed;
+
+        public string Name => HtmlLink.Parse(NameHtmlLink).Title;
+
+        public string LastPlayedText
+        {
+            get
+            {
+                var dateTime = DateTime.Parse(LastPlayed);
+
+                if (DateTime.Today.Date == dateTime)
+                {
+                    return "Today";
+                }
+
+                return DateTime.Today.Date.AddDays(-1) == dateTime ? "Yesterday" : LastPlayed;
+            }
+        } 
     }
 }

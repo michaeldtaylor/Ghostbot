@@ -9,6 +9,11 @@ namespace Ghostbot.Infrastructure
 {
     public class HtmlHelper
     {
+        public static HtmlNodeCollection GetElementsByClass(HtmlNode contentNode, string className)
+        {
+            return contentNode.SelectNodes($"//*[contains(@class,'{className}')]");
+        }
+
         public static IEnumerable<T> ParseTableRows<T>(HtmlNode contentNode, Uri baseUri = null) where T : class
         {
             var builder = new StringBuilder();
@@ -42,15 +47,21 @@ namespace Ghostbot.Infrastructure
             var anchorNode = contentNode.SelectSingleNode("a");
             var uriString = anchorNode.Attributes[0].Value;
 
-            if (uriString.StartsWith("http"))
+            Uri uri;;
+
+            if (baseUri == null || uriString.StartsWith("http"))
             {
-                
+                uri = new Uri(uriString);
+            }
+            else
+            {
+                uri = new Uri(baseUri, uriString);
             }
 
             return new HtmlLink
             {
                 Title = anchorNode.InnerText,
-                Uri = baseUri == null ? new Uri(uriString) : new Uri(baseUri, uriString)
+                Uri = uri
             };
         }
 

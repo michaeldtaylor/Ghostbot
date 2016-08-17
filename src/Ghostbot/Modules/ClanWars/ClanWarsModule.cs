@@ -6,7 +6,7 @@
         {
             SetConfiguration<ClanWarsModuleConfiguration>();
             AddCommand<ChallengeStatusCommand>();
-            AddCommand<ClanEventCommand>();
+            AddCommand<ClanEventLeaderboardCommand>();
         }
 
         public override string Name => "Destiny Clan Wars";

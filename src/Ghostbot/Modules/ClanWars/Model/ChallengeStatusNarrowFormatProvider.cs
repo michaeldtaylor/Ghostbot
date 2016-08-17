@@ -10,9 +10,11 @@ namespace Ghostbot.Modules.ClanWars.Model
         {
             var builder = new StringBuilder();
 
+            builder.AppendLine($"Event:  {challengeStatus.Header.Event.Title}");
+            builder.AppendLine($"URL:    {challengeStatus.Header.Event.Uri}");
             builder.AppendLine($"Issuer: {challengeStatus.Header.Issuer}");
-            builder.AppendLine($"Event:  {challengeStatus.Header.Event.Title} ({challengeStatus.Header.Event.Uri})");
-            builder.AppendLine($"Dates:  {challengeStatus.Header.FromDate} - {challengeStatus.Header.ToDate}");
+            builder.AppendLine($"From:   {challengeStatus.Header.FromDate}");
+            builder.AppendLine($"To:     {challengeStatus.Header.ToDate}");
             builder.AppendLine();
 
             foreach (var row in challengeStatus.Rows)

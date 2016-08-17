@@ -16,7 +16,7 @@ namespace Ghostbot.Modules.ClanWars
             return $"/clans/event/{eventId}";
         }
 
-        public static string GetClanEventRelativeUri(int eventId, int clanId)
+        public static string GetClanEventStatusRelativeUri(int eventId, int clanId)
         {
             return $"/clans/event/{eventId}/{clanId}";
         }

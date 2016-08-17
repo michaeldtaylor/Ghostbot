@@ -47,7 +47,6 @@ namespace Ghostbot.Modules.ClanWars
             using (var client = new HttpClient())
             {
                 client.BaseAddress = ClanWarsApi.BaseUri;
-                client.DefaultRequestHeaders.Accept.Clear();
 
                 var response = await client.GetAsync(ClanWarsApi.GetChallengeStatusRelativeUri(challengeId));
 

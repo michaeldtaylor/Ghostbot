@@ -10,13 +10,12 @@ using HtmlAgilityPack;
 
 namespace Ghostbot.Modules.ClanWars
 {
-    public class StatusCommand : DiscordCommand
+    public class ChallengeStatusCommand : DiscordCommand
     {
-        static readonly Uri ClanWarsBaseUri = new Uri("http://destinyclanwars.com");
 
         readonly Dictionary<ChallengeStatusFormat, IChallengeStatusFormatProvider> _challengeStatusFormatProviderMap;
-        
-        public StatusCommand(IChallengeStatusFormatProvider[] challengeStatusFormatProviders)
+
+        public ChallengeStatusCommand(IChallengeStatusFormatProvider[] challengeStatusFormatProviders)
         {
             AddParameter(new DiscordParameter("challengeId", ParameterType.Optional));
             AddParameter(new DiscordParameter("format", ParameterType.Optional));
@@ -24,7 +23,7 @@ namespace Ghostbot.Modules.ClanWars
             _challengeStatusFormatProviderMap = challengeStatusFormatProviders.ToDictionary(c => c.Format, c => c);
         }
 
-        protected override string Name => "status";
+        protected override string Name => "challenge-status";
 
         protected override string Description => "The current status of a Destiny Clan Wars challenge";
 
@@ -48,10 +47,10 @@ namespace Ghostbot.Modules.ClanWars
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = ClanWarsBaseUri;
+                client.BaseAddress = ClanWarsApi.BaseUri;
                 client.DefaultRequestHeaders.Accept.Clear();
 
-                var response = await client.GetAsync($"/challenges/view/{challengeId}");
+                var response = await client.GetAsync(ClanWarsApi.GetChallengeStatusRelativeUri(challengeId));
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -66,7 +65,7 @@ namespace Ghostbot.Modules.ClanWars
                     var formatProvider = _challengeStatusFormatProviderMap[format];
                     var formattedChallengeStatus = formatProvider.ApplyFormat(challengeStatus);
 
-                    await args.Channel.SendMessage($"Clan Wars status for challenge {challengeId}:\n\n```{formattedChallengeStatus}```");
+                    await args.Channel.SendMessage($"Destiny Clan Wars challenge {challengeId}:\n\n```{formattedChallengeStatus}```");
                 }
             }
         }
@@ -77,7 +76,7 @@ namespace Ghostbot.Modules.ClanWars
             {
                 Id = challengeId,
                 Header = ParseChallengeStatusHeader(contentNode),
-                Rows = HtmlHelper.ParseTableRows<ClanChallengeStatusRow>(contentNode, ClanWarsBaseUri)
+                Rows = HtmlHelper.ParseTableRows<ClanChallengeStatusRow>(contentNode, ClanWarsApi.BaseUri)
             };
         }
 
@@ -87,7 +86,7 @@ namespace Ghostbot.Modules.ClanWars
             var spanNodes = headerNode.SelectNodes("span").ToArray();
 
             var issuedBy = spanNodes[0].InnerText.Split(':')[1].Trim();
-            var eventLink = HtmlHelper.ParseLink(spanNodes[1], ClanWarsBaseUri);
+            var eventLink = HtmlHelper.ParseLink(spanNodes[1], ClanWarsApi.BaseUri);
 
             var dates = spanNodes[2].InnerText.Trim('(', ')').Split('-');
             var fromDate = dates[0].Trim();

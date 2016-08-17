@@ -21,7 +21,12 @@ namespace Ghostbot.Modules
 
         protected void SetConfiguration<T>() where T : IDiscordModuleConguration
         {
-            Configuration = DiscordModuleConfigurationProvider.GetModuleConfiguration<T>();
+            using (var moduleScope = GhostbotContainer.Current.BeginLifetimeScope())
+            {
+                var moduleConfigurationProvider = moduleScope.Resolve<DiscordModuleConfigurationProvider>();
+
+                Configuration = moduleConfigurationProvider.GetModuleConfiguration<T>();
+            }
         }
 
         protected void AddCommand<T>() where T : DiscordCommand
@@ -39,7 +44,7 @@ namespace Ghostbot.Modules
         {
             manager.CreateCommands(Prefix, commandGroupBuilder =>
             {
-                //cgb.AddCheck();
+                // TODO: commandGroupBuilder.AddCheck()?
 
                 _commands.ForEach(c => c.Register(commandGroupBuilder));
             });

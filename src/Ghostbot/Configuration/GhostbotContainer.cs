@@ -34,6 +34,10 @@ namespace Ghostbot.Configuration
                 .SingleInstance()
                 .AsSelf();
 
+            builder.RegisterType<DiscordModuleConfigurationProvider>()
+                .SingleInstance()
+                .AsSelf();
+
             builder.RegisterAssemblyTypes(assembly)
                 .Where(t => typeof(DiscordModule).IsAssignableFrom(t))
                 .As<IModule>();

@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Ghostbot.Modules.ClanWars.Model
 {
-    public static class ClanEventStatusRenderer
+    public static class ClanEventLeaderboardRenderer
     {
         public static string RenderStatistics(ClanEventLeaderboardStatistics statistics)
         {

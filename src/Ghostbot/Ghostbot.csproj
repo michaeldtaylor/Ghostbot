@@ -131,7 +131,7 @@
     <Compile Include="Infrastructure\HtmlLink.cs" />
     <Compile Include="Infrastructure\SQLiteHelper.cs" />
     <Compile Include="Modules\Account\AccountModuleConfiguration.cs" />
-    <Compile Include="Modules\ClanWars\Model\ClanEventStatusRenderer.cs" />
+    <Compile Include="Modules\ClanWars\Model\ClanEventLeaderboardRenderer.cs" />
     <Compile Include="Modules\ClanWars\Model\ClanEventLeaderboardStatistics.cs" />
     <Compile Include="Modules\ClanWars\ClanEventLeaderboardCommand.cs" />
     <Compile Include="Modules\ClanWars\ClanWarsApi.cs" />

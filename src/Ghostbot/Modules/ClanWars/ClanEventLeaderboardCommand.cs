@@ -53,7 +53,7 @@ namespace Ghostbot.Modules.ClanWars
                         Rows = HtmlHelper.ParseTableRows<ClanMemberRow>(tableNode, ClanWarsApi.BaseUri)
                     };
 
-                    var renderedStatistics = ClanEventStatusRenderer.RenderStatistics(clanEventLeaderboard.Statistics);
+                    var renderedStatistics = ClanEventLeaderboardRenderer.RenderStatistics(clanEventLeaderboard.Statistics);
 
                     await args.Channel.SendMessage($"Destiny Clan Wars {eventId} leaderboard for clan {clanId}:\n\n```{renderedStatistics}```");
 
@@ -72,7 +72,7 @@ namespace Ghostbot.Modules.ClanWars
             {
                 var startingIndex = pageSize * i;
                 var currentPage = rows.Skip(startingIndex).Take(pageSize);
-                var renderedClanMembers = ClanEventStatusRenderer.RenderClanMembers(startingIndex, currentPage);
+                var renderedClanMembers = ClanEventLeaderboardRenderer.RenderClanMembers(startingIndex, currentPage);
 
                 await channel.SendMessage($"```{renderedClanMembers}```");
             }

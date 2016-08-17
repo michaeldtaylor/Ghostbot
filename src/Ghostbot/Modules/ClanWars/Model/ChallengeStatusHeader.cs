@@ -1,21 +1,42 @@
 using System;
+using Ghostbot.Infrastructure;
 
 namespace Ghostbot.Modules.ClanWars.Model
 {
+    public class ChallengeEvent
+    {
+        public ChallengeEvent(HtmlLink eventLink)
+        {
+            Title = eventLink.Title;
+            Uri = eventLink.Uri;
+        }
+
+        public string Title { get; }
+        public Uri Uri { get; }
+
+        public int EventId
+        {
+            get
+            {
+                var parts = Uri.PathAndQuery.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+
+                return int.Parse(parts[parts.Length - 1]);
+            }
+        }
+    }
+
     public class ChallengeStatusHeader
     {
-        public ChallengeStatusHeader(string issuer, Uri eventUri, string eventTitle, string fromDate, string toDate)
+        public ChallengeStatusHeader(string issuer, HtmlLink eventLink, string fromDate, string toDate)
         {
             Issuer = issuer;
-            EventUri = eventUri;
-            EventTitle = eventTitle;
+            Event = new ChallengeEvent(eventLink);
             FromDate = fromDate;
             ToDate = toDate;
         }
 
         public string Issuer { get; }
-        public Uri EventUri { get; }
-        public string EventTitle { get; }
+        public ChallengeEvent Event { get; }
         public string FromDate { get; }
         public string ToDate { get; }
     }

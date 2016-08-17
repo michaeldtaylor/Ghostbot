@@ -77,7 +77,7 @@ namespace Ghostbot.Modules.ClanWars
             {
                 Id = challengeId,
                 Header = ParseChallengeStatusHeader(contentNode),
-                Rows = HtmlTableParser.ParseTableRows<ClanStatusRow>(contentNode)
+                Rows = HtmlHelper.ParseTableRows<ClanChallengeStatusRow>(contentNode, ClanWarsBaseUri)
             };
         }
 
@@ -86,17 +86,14 @@ namespace Ghostbot.Modules.ClanWars
             var headerNode = contentNode.SelectSingleNode("//h2");
             var spanNodes = headerNode.SelectNodes("span").ToArray();
 
-            var issuedBy = spanNodes[0].InnerText.Trim().Split(':')[1].Trim();
-
-            var eventAnchorNode = spanNodes[1].SelectSingleNode("a");
-            var eventUri = new Uri(ClanWarsBaseUri, eventAnchorNode.Attributes[0].Value);
-            var eventTitle = eventAnchorNode.InnerText;
+            var issuedBy = spanNodes[0].InnerText.Split(':')[1].Trim();
+            var eventLink = HtmlHelper.ParseLink(spanNodes[1], ClanWarsBaseUri);
 
             var dates = spanNodes[2].InnerText.Trim('(', ')').Split('-');
             var fromDate = dates[0].Trim();
             var toDate = dates[1].Trim();
 
-            return new ChallengeStatusHeader(issuedBy, eventUri, eventTitle, fromDate, toDate);
+            return new ChallengeStatusHeader(issuedBy, eventLink, fromDate, toDate);
         }
     }
 }

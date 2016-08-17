@@ -6,6 +6,6 @@ namespace Ghostbot.Modules.ClanWars.Model
     {
         public int Id { get; set; }
         public ChallengeStatusHeader Header { get; set; }
-        public IEnumerable<ClanStatusRow> Rows { get; set; }
+        public IEnumerable<ClanChallengeStatusRow> Rows { get; set; }
     }
 }

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Text;
+using Ghostbot.Modules.ClanWars.Model;
 
-namespace Ghostbot.Modules.ClanWars.Model
+namespace Ghostbot.Modules.ClanWars.View
 {
     public static class ClanEventLeaderboardRenderer
     {

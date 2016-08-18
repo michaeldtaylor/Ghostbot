@@ -13,13 +13,13 @@ namespace Ghostbot.Modules.ClanWars.Model
 
         public string Title { get; }
         public Uri Uri { get; }
-        public string ClanId
+        public int ClanId
         {
             get
             {
                 var parts = Uri?.PathAndQuery.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
 
-                return parts == null ? string.Empty : parts[parts.Length - 1];
+                return parts == null ? -1 : int.Parse(parts[parts.Length - 1]);
             }
         }
 

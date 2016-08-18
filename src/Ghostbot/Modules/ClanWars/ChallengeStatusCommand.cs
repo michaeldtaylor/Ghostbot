@@ -2,24 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Ghostbot.Infrastructure;
 using Ghostbot.Modules.ClanWars.Model;
+using Ghostbot.Modules.ClanWars.View;
 using HtmlAgilityPack;
 
 namespace Ghostbot.Modules.ClanWars
 {
     public class ChallengeStatusCommand : DiscordCommand
     {
-        readonly Dictionary<ChallengeStatusFormat, IChallengeStatusFormatProvider> _challengeStatusFormatProviderMap;
+        readonly Dictionary<ChallengeStatusFormat, IChallengeStatusRenderer> _challengeStatusFormatRendererMap;
 
-        public ChallengeStatusCommand(IChallengeStatusFormatProvider[] challengeStatusFormatProviders)
+        public ChallengeStatusCommand(IChallengeStatusRenderer[] challengeStatusRenderers)
         {
             AddParameter(new DiscordParameter("challengeId", ParameterType.Optional));
             AddParameter(new DiscordParameter("format", ParameterType.Optional));
 
-            _challengeStatusFormatProviderMap = challengeStatusFormatProviders.ToDictionary(c => c.Format, c => c);
+            _challengeStatusFormatRendererMap = challengeStatusRenderers.ToDictionary(c => c.Format, c => c);
         }
 
         protected override string Name => "challenge-status";
@@ -60,11 +63,37 @@ namespace Ghostbot.Modules.ClanWars
                     var contentNode = htmlDocument.GetElementbyId("content");
                     var challengeStatus = ParseChallengeStatus(challengeId, contentNode);
 
-                    var formatProvider = _challengeStatusFormatProviderMap[format];
-                    var formattedChallengeStatus = formatProvider.ApplyFormat(challengeStatus);
+                    var renderer = _challengeStatusFormatRendererMap[format];
+                    var renderedHeader = renderer.RenderHeader(challengeStatus.Header);
+                    
+                    await args.Channel.SendMessage($"Destiny Clan Wars challenge {challengeId}:\n\n```{renderedHeader}```");
 
-                    await args.Channel.SendMessage($"Destiny Clan Wars challenge {challengeId}:\n\n```{formattedChallengeStatus}```");
+                    foreach (var renderedClan in challengeStatus.Rows.Select(r => renderer.RenderClan(r, challengeStatus.Header.Event.EventId)))
+                    {
+                        await args.Channel.SendMessage($"```{renderedClan}```");
+                    }
+
+                    //var renderedClans = renderer.RenderClans(challengeStatus.Rows.ToArray(), challengeStatus.Header.Event.EventId);
+                    //var lines = renderedClans.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                    //await PageLines(30, lines, args.Channel);
                 }
+            }
+        }
+
+        static async Task PageLines(int pageSize, string[] lines, Channel channel)
+        {
+            var pages = (int)Math.Ceiling(lines.Length / (decimal)pageSize);
+
+            for (var i = 0; i < pages; i++)
+            {
+                var builder = new StringBuilder(pageSize);
+
+                foreach (var line in lines.Skip(pageSize * i).Take(pageSize))
+                {
+                    builder.AppendLine(line);
+                }
+
+                await channel.SendMessage($"```{builder}```");
             }
         }
 

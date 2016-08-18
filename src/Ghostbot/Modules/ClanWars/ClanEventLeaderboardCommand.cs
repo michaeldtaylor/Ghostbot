@@ -7,6 +7,7 @@ using Discord;
 using Discord.Commands;
 using Ghostbot.Infrastructure;
 using Ghostbot.Modules.ClanWars.Model;
+using Ghostbot.Modules.ClanWars.View;
 using HtmlAgilityPack;
 
 namespace Ghostbot.Modules.ClanWars
@@ -55,7 +56,7 @@ namespace Ghostbot.Modules.ClanWars
 
                     var renderedStatistics = ClanEventLeaderboardRenderer.RenderStatistics(clanEventLeaderboard.Statistics);
 
-                    await args.Channel.SendMessage($"Destiny Clan Wars {eventId} leaderboard for clan {clanId}:\n\n```{renderedStatistics}```");
+                    await args.Channel.SendMessage($"Destiny Clan Wars event {eventId} leaderboard for clan {clanId}:\n\n```{renderedStatistics}```");
 
                     var activeMembersByScore = clanEventLeaderboard.Rows.Where(r => r.Score > 0).OrderByDescending(r => r.Score).ToList();
 

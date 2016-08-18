@@ -6,6 +6,7 @@ using Ghostbot.Domain;
 using Ghostbot.Infrastructure;
 using Ghostbot.Modules;
 using Ghostbot.Modules.ClanWars.Model;
+using Ghostbot.Modules.ClanWars.View;
 
 namespace Ghostbot.Configuration
 {
@@ -48,8 +49,8 @@ namespace Ghostbot.Configuration
 
             // TODO: Be inside module
             builder.RegisterAssemblyTypes(assembly)
-                .Where(t => typeof(IChallengeStatusFormatProvider).IsAssignableFrom(t))
-                .As<IChallengeStatusFormatProvider>();
+                .Where(t => typeof(IChallengeStatusRenderer).IsAssignableFrom(t))
+                .As<IChallengeStatusRenderer>();
 
             return builder.Build();
         }

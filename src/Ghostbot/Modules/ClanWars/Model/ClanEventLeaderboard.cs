@@ -4,8 +4,8 @@ namespace Ghostbot.Modules.ClanWars.Model
 {
     public class ClanEventLeaderboard
     {
-        public int EventId { get; set; }
-        public int ClanId { get; set; }
+        public Event Event { get; set; }
+        public Clan Clan { get; set; }
         public ClanEventLeaderboardStatistics Statistics { get; set; }
         public IEnumerable<ClanMemberRow> Rows { get; set; }
     }

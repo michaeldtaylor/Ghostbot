@@ -9,19 +9,22 @@ namespace Ghostbot.Modules.ClanWars.Model
         {
             Title = title;
             Uri = uri;
-        }
 
-        public string Title { get; }
-        public Uri Uri { get; }
-        public int ClanId
-        {
-            get
+            var parts = uri?.PathAndQuery.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts?.Length > 0)
             {
-                var parts = Uri?.PathAndQuery.Split(new[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-
-                return parts == null ? -1 : int.Parse(parts[parts.Length - 1]);
+                Id = int.Parse(parts[parts.Length - 1]);
             }
         }
+
+        public Clan(HtmlLink eventLink) : this(eventLink.Title, eventLink.Uri)
+        {
+        }
+
+        public int Id { get; }
+        public string Title { get; }
+        public Uri Uri { get; }
 
         public static Clan Parse(string clanHtmlLink)
         {

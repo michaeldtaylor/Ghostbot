@@ -1,4 +1,6 @@
-﻿namespace Ghostbot.Modules.ClanWars
+﻿using Ghostbot.Modules.ClanWars.Commands;
+
+namespace Ghostbot.Modules.ClanWars
 {
     public class ClanWarsModule : DiscordModule
     {

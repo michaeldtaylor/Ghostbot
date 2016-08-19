@@ -1,3 +1,5 @@
+using Ghostbot.Modules.ClanWars.Commands;
+
 namespace Ghostbot.Modules.ClanWars.Model
 {
     public class ClanEventLeaderboardStatistics

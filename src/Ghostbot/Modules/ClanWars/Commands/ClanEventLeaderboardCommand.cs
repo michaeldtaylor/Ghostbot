@@ -10,7 +10,7 @@ using Ghostbot.Modules.ClanWars.Model;
 using Ghostbot.Modules.ClanWars.View;
 using HtmlAgilityPack;
 
-namespace Ghostbot.Modules.ClanWars
+namespace Ghostbot.Modules.ClanWars.Commands
 {
     public class ClanEventLeaderboardCommand : DiscordCommand
     {
@@ -43,24 +43,31 @@ namespace Ghostbot.Modules.ClanWars
                     htmlDocument.LoadHtml(content);
 
                     var contentNode = htmlDocument.GetElementbyId("content");
+                    var headerNodes = HtmlHelper.GetElementsByClass(contentNode, "contentBoxHeader");
+                    var eventDetailsNode = HtmlHelper.GetElementsByClass(contentNode, "event_description")[0];
+                    var tooltipScriptNode = contentNode.SelectSingleNode("script");
+                    var clanNameNode = headerNodes.Last();
                     var statisticsNodes = HtmlHelper.GetElementsByClass(contentNode, "clan-leaderboard-stat");
                     var tableNode = htmlDocument.GetElementbyId("clan-member-event-results");
 
                     var clanEventLeaderboard = new ClanEventLeaderboard
                     {
-                        EventId = eventId,
-                        ClanId = clanId,
+                        Event = ParseEvent(eventId, eventDetailsNode, tooltipScriptNode),
+                        Clan = ParseClan(clanId, clanNameNode),
                         Statistics = ParseStatistics(statisticsNodes),
                         Rows = HtmlHelper.ParseTableRows<ClanMemberRow>(tableNode, ClanWarsApi.BaseUri)
                     };
 
-                    var renderedStatistics = ClanEventLeaderboardRenderer.RenderStatistics(clanEventLeaderboard.Statistics);
+                    var renderedStatistics = ClanEventLeaderboardRenderer.RenderStatistics(clanEventLeaderboard);
 
-                    await args.Channel.SendMessage($"Destiny Clan Wars event {eventId} leaderboard for clan {clanId}:\n\n```{renderedStatistics}```");
+                    await args.Channel.SendMessage($"Destiny Clan Wars event {eventId} leaderboard for clan {clanEventLeaderboard.Clan.Title} ({clanId}):\n\n```{renderedStatistics}```");
 
                     var activeMembersByScore = clanEventLeaderboard.Rows.Where(r => r.Score > 0).OrderByDescending(r => r.Score).ToList();
 
-                    await PageClanMemberRows(10, activeMembersByScore, args.Channel);
+                    var renderedEvent = ClanEventLeaderboardRenderer.RenderEvent(clanEventLeaderboard);
+
+                    await args.Channel.SendMessage($"```{renderedEvent}```");
+                    //await PageClanMemberRows(PageSize, activeMembersByScore, args.Channel);
                 }
             }
         }
@@ -77,6 +84,49 @@ namespace Ghostbot.Modules.ClanWars
 
                 await channel.SendMessage($"```{renderedClanMembers}```");
             }
+        }
+
+        static Event ParseEvent(int eventId, HtmlNode eventDetailsNode, HtmlNode tooltipScriptNode)
+        {
+            var headerNode = eventDetailsNode.SelectSingleNode("//h4");
+            var headerParts = headerNode.InnerHtml.Trim().Split(new[] { "<span>", "</span>" }, StringSplitOptions.RemoveEmptyEntries);
+            var eventModifierNodes = HtmlHelper.GetElementsByClass(eventDetailsNode, "event_modifier_icon");
+
+            var tooltipScriptParts = tooltipScriptNode.InnerHtml.Trim().Split(new[] { "$('#", "').tooltipsy({", "});" }, StringSplitOptions.RemoveEmptyEntries);
+            var tooltips = new Dictionary<string, Tooltip>();
+
+            for (var i = 0; i < tooltipScriptParts.Length; i += 2)
+            {
+                var contentPart = tooltipScriptParts[i + 1].Trim().Split(new[] { "content: " }, StringSplitOptions.RemoveEmptyEntries)[0];
+                var tooltipParts = contentPart.Split(new[] { "'<h3 class=\"tool-head\">", "</h3>", "<div class=\"tool-body\">", "</div>" }, StringSplitOptions.RemoveEmptyEntries);
+
+                var tooltip = new Tooltip
+                {
+                    Id = tooltipScriptParts[i],
+                    Header = tooltipParts[0],
+                    Body = tooltipParts[1]
+                };
+
+                tooltips.Add(tooltip.Id, tooltip);
+            }
+
+            var title = headerParts[0];
+            var description = headerParts[1];
+            var modifers = eventModifierNodes.Select(e =>
+            {
+                var imgNode = e.SelectSingleNode("img");
+                var imgId = imgNode.Attributes["id"].Value;
+                var tooltip = tooltips[imgId];
+
+                return new Modifier(tooltip.Header, tooltip.Body, e.InnerText);
+            });
+
+            return new Event(eventId, title, description, modifers);
+        }
+
+        static Clan ParseClan(int clanId, HtmlNode clanNameNode)
+        {
+            return new Clan(clanNameNode.InnerText.Split(':')[1].Trim(), new Uri(ClanWarsApi.BaseUri, ClanWarsApi.GetClanRelativeUri(clanId)));
         }
 
         static ClanEventLeaderboardStatistics ParseStatistics(HtmlNodeCollection statisticsNodes)
@@ -107,9 +157,10 @@ namespace Ghostbot.Modules.ClanWars
         }
     }
 
-    public class LeaderboardElement
+    class Tooltip
     {
-        public string Player { get; set; }
-        public string Result { get; set; }
+        public string Id { get; set; }
+        public string Header { get; set; }
+        public string Body { get; set; }
     }
 }

@@ -2,16 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Discord;
 using Discord.Commands;
 using Ghostbot.Infrastructure;
 using Ghostbot.Modules.ClanWars.Model;
 using Ghostbot.Modules.ClanWars.View;
 using HtmlAgilityPack;
 
-namespace Ghostbot.Modules.ClanWars
+namespace Ghostbot.Modules.ClanWars.Commands
 {
     public class ChallengeStatusCommand : DiscordCommand
     {
@@ -64,36 +62,15 @@ namespace Ghostbot.Modules.ClanWars
                     var challengeStatus = ParseChallengeStatus(challengeId, contentNode);
 
                     var renderer = _challengeStatusFormatRendererMap[format];
-                    var renderedHeader = renderer.RenderHeader(challengeStatus.Header);
+                    var renderedHeader = renderer.RenderHeader(challengeStatus);
                     
                     await args.Channel.SendMessage($"Destiny Clan Wars challenge {challengeId}:\n\n```{renderedHeader}```");
 
-                    foreach (var renderedClan in challengeStatus.Rows.Select(r => renderer.RenderClan(r, challengeStatus.Header.Event.EventId)))
+                    foreach (var renderedClan in challengeStatus.Rows.Select(r => renderer.RenderClan(r, challengeStatus.Event)))
                     {
                         await args.Channel.SendMessage($"```{renderedClan}```");
                     }
-
-                    //var renderedClans = renderer.RenderClans(challengeStatus.Rows.ToArray(), challengeStatus.Header.Event.EventId);
-                    //var lines = renderedClans.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                    //await PageLines(30, lines, args.Channel);
                 }
-            }
-        }
-
-        static async Task PageLines(int pageSize, string[] lines, Channel channel)
-        {
-            var pages = (int)Math.Ceiling(lines.Length / (decimal)pageSize);
-
-            for (var i = 0; i < pages; i++)
-            {
-                var builder = new StringBuilder(pageSize);
-
-                foreach (var line in lines.Skip(pageSize * i).Take(pageSize))
-                {
-                    builder.AppendLine(line);
-                }
-
-                await channel.SendMessage($"```{builder}```");
             }
         }
 
@@ -102,24 +79,32 @@ namespace Ghostbot.Modules.ClanWars
             return new ChallengeStatus
             {
                 Id = challengeId,
-                Header = ParseChallengeStatusHeader(contentNode),
+                Event = ParseEvent(contentNode),
+                Details = ParseChallengeDetails(contentNode),
                 Rows = HtmlHelper.ParseTableRows<ClanChallengeStatusRow>(contentNode, ClanWarsApi.BaseUri)
             };
         }
 
-        static ChallengeStatusHeader ParseChallengeStatusHeader(HtmlNode contentNode)
+        static Event ParseEvent(HtmlNode contentNode)
         {
             var headerNode = contentNode.SelectSingleNode("//h2");
             var spanNodes = headerNode.SelectNodes("span").ToArray();
-
-            var issuedBy = spanNodes[0].InnerText.Split(':')[1].Trim();
             var eventLink = HtmlHelper.ParseLink(spanNodes[1], ClanWarsApi.BaseUri);
+
+            return new Event(eventLink);
+        }
+
+        static ChallengeDetails ParseChallengeDetails(HtmlNode contentNode)
+        {
+            var headerNode = contentNode.SelectSingleNode("//h2");
+            var spanNodes = headerNode.SelectNodes("span").ToArray();
+            var issuedBy = spanNodes[0].InnerText.Split(':')[1].Trim();
 
             var dates = spanNodes[2].InnerText.Trim('(', ')').Split('-');
             var fromDate = dates[0].Trim();
             var toDate = dates[1].Trim();
 
-            return new ChallengeStatusHeader(issuedBy, eventLink, fromDate, toDate);
+            return new ChallengeDetails(issuedBy, fromDate, toDate);
         }
     }
 }

@@ -57,14 +57,15 @@ namespace Ghostbot.Modules.ClanWars.View
             builder.AppendLine($"Description:  {@event.Description}");
             builder.AppendLine();
 
-            var index = 0;
+            var index = 1;
 
             foreach (var modifier in clanEventLeaderboard.Event.Modifiers)
             {
                 var modifierName = $"{modifier.Name}:".PadRight(longestModifierName + 4);
 
                 builder.AppendLine($"{index++.ToString("D2")}. {modifierName}{modifier.Value}");
-                builder.AppendLine($"    {modifier.Description}");
+                builder.AppendLine();
+                builder.AppendLine($"{modifier.Description}");
                 builder.AppendLine();
             }
 

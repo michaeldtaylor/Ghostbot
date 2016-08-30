@@ -63,12 +63,13 @@ namespace Ghostbot.Modules.ClanWars.Commands
 
                     var renderer = _challengeStatusFormatRendererMap[format];
                     var renderedHeader = renderer.RenderHeader(challengeStatus);
-                    
+                    var activeClansByScore = challengeStatus.Rows.Where(r => r.Active > 0).OrderByDescending(r => r.Score).ToList();
+
                     await args.Channel.SendMessage($"Destiny Clan Wars challenge {challengeId}:\n\n```{renderedHeader}```");
 
-                    foreach (var renderedClan in challengeStatus.Rows.Select(r => renderer.RenderClan(r, challengeStatus.Event)))
+                    foreach (var activeRenderedClan in activeClansByScore.Select(r => renderer.RenderClan(r, challengeStatus.Event)))
                     {
-                        await args.Channel.SendMessage($"```{renderedClan}```");
+                        await args.Channel.SendMessage($"```{activeRenderedClan}```");
                     }
                 }
             }

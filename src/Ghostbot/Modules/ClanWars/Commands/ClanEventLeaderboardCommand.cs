@@ -14,6 +14,8 @@ namespace Ghostbot.Modules.ClanWars.Commands
 {
     public class ClanEventLeaderboardCommand : DiscordCommand
     {
+        static int PageSize => 10;
+
         public ClanEventLeaderboardCommand()
         {
             AddParameter(new DiscordParameter("eventId"));
@@ -63,11 +65,10 @@ namespace Ghostbot.Modules.ClanWars.Commands
                     await args.Channel.SendMessage($"Destiny Clan Wars event {eventId} leaderboard for clan {clanEventLeaderboard.Clan.Title} ({clanId}):\n\n```{renderedStatistics}```");
 
                     var activeMembersByScore = clanEventLeaderboard.Rows.Where(r => r.Score > 0).OrderByDescending(r => r.Score).ToList();
-
                     var renderedEvent = ClanEventLeaderboardRenderer.RenderEvent(clanEventLeaderboard);
 
                     await args.Channel.SendMessage($"```{renderedEvent}```");
-                    //await PageClanMemberRows(PageSize, activeMembersByScore, args.Channel);
+                    await PageClanMemberRows(PageSize, activeMembersByScore, args.Channel);
                 }
             }
         }

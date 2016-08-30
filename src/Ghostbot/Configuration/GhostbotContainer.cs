@@ -5,7 +5,6 @@ using Discord.Modules;
 using Ghostbot.Domain;
 using Ghostbot.Infrastructure;
 using Ghostbot.Modules;
-using Ghostbot.Modules.ClanWars.Model;
 using Ghostbot.Modules.ClanWars.View;
 
 namespace Ghostbot.Configuration

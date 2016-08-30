@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Destiny.Net.Core;
+using Destiny.Net.Core.Model;
 using Discord.Commands;
 using Ghostbot.Configuration;
 using Ghostbot.Domain;
-using Manticore.DestinySdk.Core;
-using Manticore.DestinySdk.Core.Model;
 
 namespace Ghostbot.Modules.Guardian
 {

@@ -12,18 +12,15 @@ namespace Ghostbot.Modules.Guardian.View
             var destinyAccount = bungieAccount.DestinyAccounts.First();
             var builder = new StringBuilder();
 
-            builder.AppendLine($"Name:         {destinyAccount.UserInfo.DisplayName}");
-            builder.AppendLine($"Platform:     {platform}");
-            builder.AppendLine($"Characters:   {destinyAccount.Characters.Count()}");
+            builder.AppendLine($"Name:       {destinyAccount.UserInfo.DisplayName}");
+            builder.AppendLine($"Platform:   {platform}");
+            builder.AppendLine($"Grimoire:   {destinyAccount.GrimoireScore}");
             builder.AppendLine();
 
             foreach (var character in destinyAccount.Characters)
             {
-                builder.AppendLine($"Class:   {character.CharacterClass.ClassName}");
-                builder.AppendLine($"Gender:  {character.Gender.GenderName}");
-                builder.AppendLine($"Gender:  {character.Race.RaceName}");
-                builder.AppendLine($"Level:   {character.Level}");
-                builder.AppendLine($"Light:   {character.PowerLevel}");
+                builder.AppendLine($"{character.CharacterClass.ClassName.PadRight(20)}{character.Level}");
+                builder.AppendLine($"{character.Race.RaceName} {character.Gender.GenderName}".PadRight(18) + $"+{character.PowerLevel}");
                 builder.AppendLine();
             }
 

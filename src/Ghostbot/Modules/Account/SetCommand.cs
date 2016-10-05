@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Destiny.Net.Core;
 using Destiny.Net.Core.Model;
@@ -31,14 +32,14 @@ namespace Ghostbot.Modules.Account
             var username = args.GetArg("username");
             var platform = (Platform)Enum.Parse(typeof(Platform), args.GetArg("platform"));
 
-            var accountSummary = await _destinyClient.GetAccountSummary(platform, username);
+            var destinyPlayerResponse = await _destinyClient.SearchDestinyPlayer(platform, username);
 
-            if (accountSummary != null)
+            if (destinyPlayerResponse != null)
             {
                 _discordUserRepository.Add(new DiscordUser
                 {
                     DiscordId = args.User.Mention,
-                    DestinyId = accountSummary.Id,
+                    DestinyId = destinyPlayerResponse.MembershipId,
                     DestinyUsername = username,
                     DestintPlatform = platform.ToString()
                 });

@@ -4,11 +4,11 @@
     "Filter": "None"
   },
   "AccountModuleConfiguration": {
-    "IsActive": false,
+    "IsActive": true,
     "Filter": "None"
   },
   "GuardianModuleConfiguration": {
-    "IsActive": false,
+    "IsActive": true,
     "Filter": "None"
   },
   "ClanWarsModuleConfiguration": {

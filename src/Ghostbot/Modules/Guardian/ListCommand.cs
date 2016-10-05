@@ -1,11 +1,11 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Destiny.Net.Core;
 using Destiny.Net.Core.Model;
 using Discord.Commands;
 using Ghostbot.Configuration;
 using Ghostbot.Domain;
+using Ghostbot.Modules.Guardian.View;
 
 namespace Ghostbot.Modules.Guardian
 {
@@ -45,10 +45,10 @@ namespace Ghostbot.Modules.Guardian
                 platform = (Platform)Enum.Parse(typeof(Platform), user.DestintPlatform);
             }
 
-            var accountSummary = await _destinyClient.GetAccountSummary(platform, username);
-            var charactersCount = accountSummary.Characters.Count();
+            var bungieAccount = await _destinyClient.GetBungieAccount(username, platform);
+            var renderedGuardian = GuardianRenderer.Render(bungieAccount, platform);
 
-            await args.Channel.SendMessage($"{args.User.Mention} has {charactersCount} guardians (more info coming soon! :)");
+            await args.Channel.SendMessage($"```{renderedGuardian}```");
         }
     }
 }

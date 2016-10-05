@@ -6,6 +6,7 @@ namespace Ghostbot.Modules.ClanWars.View
     public class ChallengeStatusNarrowRenderer : IChallengeStatusRenderer
     {
         public ChallengeStatusFormat Format => ChallengeStatusFormat.Narrow;
+
         public string RenderHeader(ChallengeStatus challengeStatus)
         {
             var header = challengeStatus.Details;

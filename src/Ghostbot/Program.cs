@@ -78,7 +78,7 @@ namespace Ghostbot
                     token = discordTokenProvider.GetBotToken();
                 }
 
-                await _client.Connect(token).ConfigureAwait(false);
+                await _client.Connect(token, TokenType.Bot).ConfigureAwait(false);
             }
             catch (DiscordBotTokenProviderException ex)
             {

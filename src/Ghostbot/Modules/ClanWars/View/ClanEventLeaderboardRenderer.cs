@@ -19,8 +19,17 @@ namespace Ghostbot.Modules.ClanWars.View
             builder.AppendLine($"Hightest K/D:       {statistics.HighestKd.Player.PadRight(20)} ({statistics.HighestKd.Result})");
             builder.AppendLine($"Highest Win %:      {statistics.HighestWinPercentage.Player.PadRight(20)} ({statistics.HighestWinPercentage.Result})");
             builder.AppendLine($"Highest PPM:        {statistics.HighestPointsPerMatch.Player.PadRight(20)} ({statistics.HighestPointsPerMatch.Result})");
-            builder.AppendLine($"Pew Pew:            {statistics.PewPew.Player.PadRight(20)} ({statistics.PewPew.Result})");
-            builder.AppendLine($"Orbs:               {statistics.Orbs.Player.PadRight(20)} ({statistics.Orbs.Result})");
+
+            if (statistics.PewPew != null)
+            {
+                builder.AppendLine($"Pew Pew:            {statistics.PewPew.Player.PadRight(20)} ({statistics.PewPew.Result})");
+            }
+
+            if (statistics.Orbs != null)
+            {
+                builder.AppendLine($"Orbs:               {statistics.Orbs.Player.PadRight(20)} ({statistics.Orbs.Result})");
+            }
+
             builder.AppendLine();
 
             return builder.ToString();

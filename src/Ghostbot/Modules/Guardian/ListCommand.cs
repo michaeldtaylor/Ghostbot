@@ -31,18 +31,19 @@ namespace Ghostbot.Modules.Guardian
         {
             var user = _discordUserRepository.Get(args.User.Mention);
 
-            string username;
-            Platform platform;
+            string username = null;
+            var platform = Platform.PlayStation;
 
-            if (user == null)
-            {
-                username = args.GetArg("username");
-                platform = (Platform)Enum.Parse(typeof(Platform), args.GetArg("platform"));
-            }
-            else
+            if (user != null)
             {
                 username = user.DestinyUsername;
                 platform = (Platform)Enum.Parse(typeof(Platform), user.DestintPlatform);
+            }
+
+            if (args.Args.Length == 2)
+            {
+                username = args.GetArg("username");
+                platform = (Platform)Enum.Parse(typeof(Platform), args.GetArg("platform"));
             }
 
             var bungieAccount = await _destinyClient.GetBungieAccount(username, platform);

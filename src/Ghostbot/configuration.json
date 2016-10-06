@@ -14,7 +14,7 @@
   "ClanWarsModuleConfiguration": {
     "IsActive": true,
     "Filter": "None",
-    "DefaultChallengeId": 144,
+    "DefaultChallengeId": 150,
     "DefaultStatusFormat": "Narrow" 
   }
 }

@@ -52,12 +52,17 @@ namespace Ghostbot.Modules.ClanWars.Commands
                     var statisticsNodes = HtmlHelper.GetElementsByClass(contentNode, "clan-leaderboard-stat");
                     var tableNode = htmlDocument.GetElementbyId("clan-member-event-results");
 
+                    var @event = ParseEvent(eventId, eventDetailsNode, tooltipScriptNode);
+                    var clan = ParseClan(clanId, clanNameNode);
+                    var statistics = ParseStatistics(statisticsNodes);
+                    var rows = HtmlHelper.ParseTableRows<ClanMemberRow>(tableNode, ClanWarsApi.BaseUri);
+
                     var clanEventLeaderboard = new ClanEventLeaderboard
                     {
-                        Event = ParseEvent(eventId, eventDetailsNode, tooltipScriptNode),
-                        Clan = ParseClan(clanId, clanNameNode),
-                        Statistics = ParseStatistics(statisticsNodes),
-                        Rows = HtmlHelper.ParseTableRows<ClanMemberRow>(tableNode, ClanWarsApi.BaseUri)
+                        Event = @event,
+                        Clan = clan,
+                        Statistics = statistics,
+                        Rows = rows
                     };
 
                     var renderedStatistics = ClanEventLeaderboardRenderer.RenderStatistics(clanEventLeaderboard);
@@ -139,8 +144,8 @@ namespace Ghostbot.Modules.ClanWars.Commands
             var highestKd = statistics[2];
             var highestWinPercentage = statistics[3];
             var highestPointsPerMatch = statistics[4];
-            var pewPew = statistics[5];
-            var orbs = statistics[6];
+            var pewPew = statistics.Count > 6 ? statistics[5] : null;
+            var orbs = statistics.Count > 7 ? statistics[6] : null;
 
             return new ClanEventLeaderboardStatistics(mostMatches, mostPoints, highestKd, highestWinPercentage, highestPointsPerMatch, pewPew, orbs);
         }

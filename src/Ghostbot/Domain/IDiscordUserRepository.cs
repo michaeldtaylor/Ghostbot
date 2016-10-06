@@ -2,7 +2,7 @@
 {
     public interface IDiscordUserRepository
     {
-        DiscordUser Get(string discordId);
+        DiscordUser FindById(string discordId);
         void Add(DiscordUser discordUser);
     }
 }

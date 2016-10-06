@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Destiny.Net.Core;
 using Destiny.Net.Core.Model;
@@ -29,23 +28,50 @@ namespace Ghostbot.Modules.Account
 
         protected override async Task Execute(CommandEventArgs args)
         {
-            var username = args.GetArg("username");
-            var platform = (Platform)Enum.Parse(typeof(Platform), args.GetArg("platform"));
+            var discordId = args.User.Mention;
+
+            string username;
+            Platform platform;
+
+            try
+            {
+                username = args.GetArg("username");
+                platform = (Platform)Enum.Parse(typeof(Platform), args.GetArg("platform"));
+            }
+            catch (Exception)
+            {
+                await args.Channel.SendMessage($"{discordId} your Destiny username or platform is missing, or platform is invalid! Please try again.");
+                return;
+            }
 
             var destinyPlayerResponse = await _destinyClient.SearchDestinyPlayer(platform, username);
 
-            if (destinyPlayerResponse != null)
+            if (destinyPlayerResponse == null)
+            {
+                await args.Channel.SendMessage($"{discordId} failed to find your Destiny username and platform! Please try again.");
+                return;
+            }
+
+            var discordUser = _discordUserRepository.FindById(discordId);
+
+            if (discordUser == null)
             {
                 _discordUserRepository.Add(new DiscordUser
                 {
-                    DiscordId = args.User.Mention,
+                    DiscordId = discordId,
                     DestinyId = destinyPlayerResponse.MembershipId,
                     DestinyUsername = username,
                     DestintPlatform = platform.ToString()
                 });
             }
+            else
+            {
+                discordUser.DestinyId = destinyPlayerResponse.MembershipId;
+                discordUser.DestinyUsername = username;
+                discordUser.DestintPlatform = platform.ToString();
+            }
 
-            await args.Channel.SendMessage($"{args.User.Mention} has set their Destiny platform and username!");
+            await args.Channel.SendMessage($"{discordId} set their Destiny username and platform!");
         }
     }
 }

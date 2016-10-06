@@ -29,21 +29,30 @@ namespace Ghostbot.Modules.Guardian
 
         protected override async Task Execute(CommandEventArgs args)
         {
-            var user = _discordUserRepository.Get(args.User.Mention);
+            var discordId = args.User.Mention;
+            var discordUser = _discordUserRepository.FindById(discordId);
 
             string username = null;
             var platform = Platform.PlayStation;
 
-            if (user != null)
+            if (discordUser != null)
             {
-                username = user.DestinyUsername;
-                platform = (Platform)Enum.Parse(typeof(Platform), user.DestintPlatform);
+                username = discordUser.DestinyUsername;
+                platform = (Platform)Enum.Parse(typeof(Platform), discordUser.DestintPlatform);
             }
 
             if (args.Args.Length == 2)
             {
-                username = args.GetArg("username");
-                platform = (Platform)Enum.Parse(typeof(Platform), args.GetArg("platform"));
+                try
+                {
+                    username = args.GetArg("username");
+                    platform = (Platform)Enum.Parse(typeof(Platform), args.GetArg("platform"));
+                }
+                catch (Exception)
+                {
+                    await args.Channel.SendMessage($"{discordId} your Destiny username or platform is missing, or platform is invalid! Please try again.");
+                    return;
+                }
             }
 
             var bungieAccount = await _destinyClient.GetBungieAccount(username, platform);

@@ -57,6 +57,17 @@
   <ItemGroup>
     <PublishProfile Include="Profiles\ghostbotProduction.azurePubxml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Ghostbot.Azure.WorkerRoleContent\Install.cmd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Ghostbot.Azure.WorkerRoleContent\NDP461-KB3102438-Web.exe">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Ghostbot.Azure.WorkerRoleContent\Startup.cmd">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>

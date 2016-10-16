@@ -1,7 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="Ghostbot.Azure.CloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2015-04.2.6">
   <WorkerRole name="Ghostbot.Azure.WorkerRole" vmsize="Small">
+    <LocalResources>
+      <LocalStorage name="NETFXInstall" sizeInMB="1024" cleanOnRoleRecycle="false" />
+    </LocalResources>
     <Startup>
+      <Task commandLine="Install.cmd" executionContext="elevated" taskType="simple">
+        <Environment>
+          <Variable name="PathToNETFXInstall">
+            <RoleInstanceValue xpath="/RoleEnvironment/CurrentInstance/LocalResources/LocalResource[@name='NETFXInstall']/@path" />
+          </Variable>
+          <Variable name="ComputeEmulatorRunning">
+            <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
+          </Variable>
+        </Environment>
+      </Task>
       <Task commandLine="Startup.cmd" executionContext="limited" taskType="simple">
         <Environment>
           <Variable name="GhostbotDiscordToken" value="1" />

@@ -6,6 +6,11 @@
         <DiagnosticInfrastructureLogs scheduledTransferLogLevelFilter="Error"/>
         <Logs scheduledTransferPeriod="PT1M" scheduledTransferLogLevelFilter="Error" />
         <Directories scheduledTransferPeriod="PT1M">
+          <DataSources>
+            <DirectoryConfiguration containerName="netfx-install">
+              <LocalResource name="NETFXInstall" relativePath="log"/>
+            </DirectoryConfiguration>
+          </DataSources>          
           <IISLogs containerName ="wad-iis-logfiles" />
           <FailedRequestLogs containerName ="wad-failedrequestlogs" />
         </Directories>

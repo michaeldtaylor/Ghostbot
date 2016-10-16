@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace Ghostbot.Azure.WorkerRole
@@ -13,11 +12,18 @@ namespace Ghostbot.Azure.WorkerRole
 
         public override void Run()
         {
-            Trace.TraceInformation("GhostbotWorker is running");
+            Trace.TraceInformation("Ghostbot WorkerRoles is running");
 
             try
             {
-                RunAsync(_cancellationTokenSource.Token).Wait();
+                while (!_cancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    Trace.TraceInformation("Working");
+
+                    var ghostbotClient = new GhostbotClient();
+
+                    ghostbotClient.Start();
+                }
             }
             finally
             {
@@ -35,30 +41,21 @@ namespace Ghostbot.Azure.WorkerRole
 
             var result = base.OnStart();
 
-            Trace.TraceInformation("GhostbotWorker has been started");
+            Trace.TraceInformation("Ghostbot WorkerRoles has been started");
 
             return result;
         }
 
         public override void OnStop()
         {
-            Trace.TraceInformation("GhostbotWorker is stopping");
+            Trace.TraceInformation("Ghostbot WorkerRoles is stopping");
 
             _cancellationTokenSource.Cancel();
             _runCompleteEvent.WaitOne();
 
             base.OnStop();
 
-            Trace.TraceInformation("GhostbotWorker has stopped");
-        }
-
-        static async Task RunAsync(CancellationToken cancellationToken)
-        {
-            // TODO: Replace the following with your own logic.
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                Trace.TraceInformation("Working");
-            }
+            Trace.TraceInformation("Ghostbot WorkerRoles has stopped");
         }
     }
 }

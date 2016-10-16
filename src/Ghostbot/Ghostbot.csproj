@@ -120,7 +120,7 @@
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Topshelf, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Topshelf.4.0.2\lib\net452\Topshelf.dll</HintPath>
+      <HintPath>..\packages\Topshelf.4.0.3\lib\net452\Topshelf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Topshelf.Azure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
@@ -150,6 +150,7 @@
     <Compile Include="Configuration\GhostbotContainer.cs" />
     <Compile Include="Configuration\ConfigurationReader.cs" />
     <Compile Include="Domain\DiscordUser.cs" />
+    <Compile Include="GhostbotClient.cs" />
     <Compile Include="Infrastructure\DiscordUserRepository.cs" />
     <Compile Include="Domain\IDiscordUserRepository.cs" />
     <Compile Include="Infrastructure\HtmlLink.cs" />

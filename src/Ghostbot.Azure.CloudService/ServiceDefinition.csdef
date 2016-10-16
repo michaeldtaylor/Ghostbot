@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="Ghostbot.Azure.CloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2015-04.2.6">
+  <WorkerRole name="Ghostbot.Azure.WorkerRole" vmsize="Small">
+    <Startup>
+      <Task commandLine="Startup.cmd" executionContext="limited" taskType="simple">
+        <Environment>
+          <Variable name="GhostbotDiscordToken" value="1" />
+          <Variable name="GhostbotAzureStorageKey" value="2" />
+          <Variable name="DestinyApiKey" value="3" />
+        </Environment>
+      </Task>
+    </Startup>
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
+    </ConfigurationSettings>
+    <Imports>
+      <Import moduleName="RemoteAccess" />
+      <Import moduleName="RemoteForwarder" />
+    </Imports>
+  </WorkerRole>
+</ServiceDefinition>

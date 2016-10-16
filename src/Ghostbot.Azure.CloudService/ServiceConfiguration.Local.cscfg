@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="Ghostbot.Azure.CloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2015-04.2.6">
+  <Role name="Ghostbot.Azure.WorkerRole">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="michaeldtaylor" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEEqpc1awiy+UTAYA7SDqQfcwDQYJKoZIhvcNAQEBBQAEggEAYzJ4EBtilZGH8Age5XfFwiYp//NIfIjCwjNAw0ckGS3vy+tgivk57K6eZ2c6QkZQvgXYph4Xnqs3WQEnwjg5AftG3siPYR4d0ZPe+H9PvUz7+lX1RftPsZj1/u2BreXg2aGkyW7eja8N3QLBkBSv/EOY+5EbqVJx05imcdxVeJJt/s2pLkCDFScfSuyjBjXETbTfuC/YYeOjBPR02ZADew3Hp/7n6qmHQ0yz7PN8amC53VOnH5u4MUuEFjLmvuXyL3PUPswCg//IMcsJ5iq6OKEwMOF8v3PRckGPfcT82CR4ab3cx1T95/97VuomFOrYu8xcEoed+uO+8HMgq5FeKzAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECBykD93h+KpsgBBJbIPAMK9UibBIn6X7HmWz" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2017-10-16T23:59:59.0000000+01:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="A8BDB06F6BFC1E5CA6D0944FDF9EF0184D2FF227" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>

@@ -10,6 +10,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{6AAC257F-6
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure", "Azure", "{A2078CB9-01B4-48AB-A3D5-677554A3B482}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ghostbot.Azure.WorkerRole", "Ghostbot.Azure.WorkerRole\Ghostbot.Azure.WorkerRole.csproj", "{3DC29A2F-597C-4A5E-8968-0461065801C9}"
+EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "Ghostbot.Azure.CloudService", "Ghostbot.Azure.CloudService\Ghostbot.Azure.CloudService.ccproj", "{D8F40F1F-50FA-4A4D-B772-1422E20804FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +26,20 @@ Global
 		{3D15E72C-0BA6-4275-82D4-8091D9CA6658}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D15E72C-0BA6-4275-82D4-8091D9CA6658}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D15E72C-0BA6-4275-82D4-8091D9CA6658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DC29A2F-597C-4A5E-8968-0461065801C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DC29A2F-597C-4A5E-8968-0461065801C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DC29A2F-597C-4A5E-8968-0461065801C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DC29A2F-597C-4A5E-8968-0461065801C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8F40F1F-50FA-4A4D-B772-1422E20804FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8F40F1F-50FA-4A4D-B772-1422E20804FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8F40F1F-50FA-4A4D-B772-1422E20804FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8F40F1F-50FA-4A4D-B772-1422E20804FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3DC29A2F-597C-4A5E-8968-0461065801C9} = {A2078CB9-01B4-48AB-A3D5-677554A3B482}
+		{D8F40F1F-50FA-4A4D-B772-1422E20804FE} = {A2078CB9-01B4-48AB-A3D5-677554A3B482}
 	EndGlobalSection
 EndGlobal

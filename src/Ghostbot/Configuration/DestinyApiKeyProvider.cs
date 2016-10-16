@@ -21,7 +21,7 @@ namespace Ghostbot.Configuration
             }
             catch (GhostbotConfigurationException)
             {
-                throw new DesktinyApiKeyProviderException();
+                throw new DestinyApiKeyProviderException();
             }
         }
     }

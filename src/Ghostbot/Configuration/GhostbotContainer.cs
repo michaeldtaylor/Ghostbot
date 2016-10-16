@@ -26,7 +26,11 @@ namespace Ghostbot.Configuration
             builder.RegisterType<DiscordUserRepository>()
                 .As<IDiscordUserRepository>();
 
-            builder.RegisterType<DiscordBotTokenProvider>()
+            builder.RegisterType<GhostbotDiscordTokenProvider>()
+                .SingleInstance()
+                .AsSelf();
+
+            builder.RegisterType<GhostbotAzureStorageKeyProvider>()
                 .SingleInstance()
                 .AsSelf();
 
@@ -46,7 +50,7 @@ namespace Ghostbot.Configuration
                 .Where(t => typeof(DiscordCommand).IsAssignableFrom(t))
                 .AsSelf();
 
-            // TODO: Be inside module
+            // TODO: Module specific
             builder.RegisterAssemblyTypes(assembly)
                 .Where(t => typeof(IChallengeStatusRenderer).IsAssignableFrom(t))
                 .As<IChallengeStatusRenderer>();

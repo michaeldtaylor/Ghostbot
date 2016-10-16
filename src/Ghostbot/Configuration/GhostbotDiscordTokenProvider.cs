@@ -1,17 +1,17 @@
 namespace Ghostbot.Configuration
 {
-    public class DiscordBotTokenProvider
+    public class GhostbotDiscordTokenProvider
     {
         readonly IConfigurationProvider _configurationProvider;
 
-        public DiscordBotTokenProvider(IConfigurationProvider configurationProvider)
+        public GhostbotDiscordTokenProvider(IConfigurationProvider configurationProvider)
         {
             _configurationProvider = configurationProvider;
         }
 
-        public const string TokenVariable = "GhostbotDiscordBotToken";
+        public const string TokenVariable = "GhostbotDiscordToken";
         
-        public string GetBotToken()
+        public string GetToken()
         {
             try
             {
@@ -21,7 +21,7 @@ namespace Ghostbot.Configuration
             }
             catch (GhostbotConfigurationException)
             {
-                throw new DiscordBotTokenProviderException();
+                throw new GhostbotDiscordTokenProviderException();
             }
         }
     }

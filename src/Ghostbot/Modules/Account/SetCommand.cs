@@ -52,24 +52,9 @@ namespace Ghostbot.Modules.Account
                 return;
             }
 
-            var discordUser = _discordUserRepository.FindById(discordId);
+            var discordUser = new DiscordUser(discordId, destinyPlayerResponse.MembershipId, username, platform.ToString());
 
-            if (discordUser == null)
-            {
-                _discordUserRepository.Add(new DiscordUser
-                {
-                    DiscordId = discordId,
-                    DestinyId = destinyPlayerResponse.MembershipId,
-                    DestinyUsername = username,
-                    DestintPlatform = platform.ToString()
-                });
-            }
-            else
-            {
-                discordUser.DestinyId = destinyPlayerResponse.MembershipId;
-                discordUser.DestinyUsername = username;
-                discordUser.DestintPlatform = platform.ToString();
-            }
+            _discordUserRepository.AddOrReplace(discordUser);
 
             await args.Channel.SendMessage($"{discordId} set their Destiny username and platform!");
         }

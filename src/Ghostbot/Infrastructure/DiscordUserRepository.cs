@@ -1,25 +1,50 @@
-﻿using Ghostbot.Domain;
+﻿using Ghostbot.Configuration;
+using Ghostbot.Domain;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Ghostbot.Infrastructure
 {
     public class DiscordUserRepository : IDiscordUserRepository
     {
-        public DiscordUser FindById(string discordId)
+        const string StorageAccountName = "ghostbot";
+        const string DiscordUsersTableName = "discordusers";
+
+        readonly GhostbotAzureStorageKeyProvider _ghostbotAzureStorageKeyProvider;
+
+        public DiscordUserRepository(GhostbotAzureStorageKeyProvider ghostbotAzureStorageKeyProvider)
         {
-            //return SQLiteHelper.WithConnection(c => c.Table<DiscordUser>().SingleOrDefault(u => u.DiscordId == discordId));
-            return new DiscordUser();
+            _ghostbotAzureStorageKeyProvider = ghostbotAzureStorageKeyProvider;
         }
 
-        public void Add(DiscordUser discordUser)
+        public DiscordUser FindById(string discordId)
         {
-            var user = FindById(discordUser.DiscordId);
+            var table = GetTable();
+            var retrieveOperation = TableOperation.Retrieve<DiscordUser>(DiscordUser.DefaultPartitionKey, discordId);
+            var retrievedResult = table.Execute(retrieveOperation);
 
-            if (user != null)
-            {
-                return;
-            }
+            return (DiscordUser)retrievedResult.Result;
+        }
 
-            //SQLiteHelper.WithConnection(c => c.Insert(discordUser));
+        public void AddOrReplace(DiscordUser discordUser)
+        {
+            var table = GetTable();
+            var insertOperation = TableOperation.InsertOrReplace(discordUser);
+
+            table.Execute(insertOperation);
+        }
+
+        CloudTable GetTable()
+        {
+            var storageKey = _ghostbotAzureStorageKeyProvider.GetStorageKey();
+            var storageAccount = new CloudStorageAccount(new StorageCredentials(StorageAccountName, storageKey), true);
+            var tableClient = storageAccount.CreateCloudTableClient();
+            var table = tableClient.GetTableReference(DiscordUsersTableName);
+
+            table.CreateIfNotExists();
+
+            return table;
         }
     }
 }

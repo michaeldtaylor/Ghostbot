@@ -71,13 +71,13 @@ namespace Ghostbot
 
                 using (var configurationScope = GhostbotContainer.Current.BeginLifetimeScope())
                 {
-                    var discordTokenProvider = configurationScope.Resolve<DiscordBotTokenProvider>();
-                    token = discordTokenProvider.GetBotToken();
+                    var discordTokenProvider = configurationScope.Resolve<GhostbotDiscordTokenProvider>();
+                    token = discordTokenProvider.GetToken();
                 }
 
                 await _client.Connect(token, TokenType.Bot).ConfigureAwait(false);
             }
-            catch (DiscordBotTokenProviderException ex)
+            catch (GhostbotDiscordTokenProviderException ex)
             {
                 Console.WriteLine(ex.Message);
             }

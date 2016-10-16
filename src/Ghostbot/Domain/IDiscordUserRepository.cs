@@ -3,6 +3,6 @@
     public interface IDiscordUserRepository
     {
         DiscordUser FindById(string discordId);
-        void Add(DiscordUser discordUser);
+        void AddOrReplace(DiscordUser discordUser);
     }
 }

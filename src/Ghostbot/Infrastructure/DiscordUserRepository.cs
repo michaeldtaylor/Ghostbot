@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Ghostbot.Domain;
+﻿using Ghostbot.Domain;
 
 namespace Ghostbot.Infrastructure
 {
@@ -7,7 +6,8 @@ namespace Ghostbot.Infrastructure
     {
         public DiscordUser FindById(string discordId)
         {
-            return SQLiteHelper.WithConnection(c => c.Table<DiscordUser>().SingleOrDefault(u => u.DiscordId == discordId));
+            //return SQLiteHelper.WithConnection(c => c.Table<DiscordUser>().SingleOrDefault(u => u.DiscordId == discordId));
+            return new DiscordUser();
         }
 
         public void Add(DiscordUser discordUser)
@@ -19,7 +19,7 @@ namespace Ghostbot.Infrastructure
                 return;
             }
 
-            SQLiteHelper.WithConnection(c => c.Insert(discordUser));
+            //SQLiteHelper.WithConnection(c => c.Insert(discordUser));
         }
     }
 }

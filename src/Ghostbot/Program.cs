@@ -6,7 +6,6 @@ using Discord;
 using Discord.Commands;
 using Discord.Modules;
 using Ghostbot.Configuration;
-using Ghostbot.Infrastructure;
 using Ghostbot.Modules;
 
 namespace Ghostbot
@@ -22,8 +21,6 @@ namespace Ghostbot
 
         void Start()
         {
-            SQLiteHelper.CreateDatabase();
-
             _client = new DiscordClient(x =>
             {
                 x.AppName = AppName;

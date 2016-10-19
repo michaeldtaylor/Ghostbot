@@ -8,7 +8,7 @@ set netfx="NDP461"
 REM ***** Set script start timestamp *****
 set timehour=%time:~0,2%
 set timestamp=%date:~-4,4%%date:~-10,2%%date:~-7,2%-%timehour: =0%%time:~3,2%
-set "log=install.cmd started %timestamp%."
+set "log=Install.cmd started %timestamp%."
 
 REM ***** Exit script if running in Emulator *****
 if %ComputeEmulatorRunning%=="true" goto exit
@@ -74,7 +74,7 @@ EXIT /B %ERRORLEVEL%
 echo .NET (%netfx%) is installed >> %startuptasklog%
 
 :end
-echo install.cmd completed: %date:~-4,4%%date:~-10,2%%date:~-7,2%-%timehour: =0%%time:~3,2% >> %startuptasklog%
+echo Install.cmd completed: %date:~-4,4%%date:~-10,2%%date:~-7,2%-%timehour: =0%%time:~3,2% >> %startuptasklog%
 
 :exit
 EXIT /B 0

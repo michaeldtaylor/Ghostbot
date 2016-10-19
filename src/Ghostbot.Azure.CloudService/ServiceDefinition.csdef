@@ -15,11 +15,11 @@
           </Variable>
         </Environment>
       </Task>
-      <Task commandLine="Startup.cmd" executionContext="limited" taskType="simple">
+      <Task commandLine="EnvironmentVariables.cmd" executionContext="elevated" taskType="simple">
         <Environment>
-          <Variable name="GhostbotDiscordToken" value="1" />
-          <Variable name="GhostbotAzureStorageKey" value="2" />
-          <Variable name="DestinyApiKey" value="3" />
+          <Variable name="GhostbotDiscordToken" value="" />
+          <Variable name="GhostbotAzureStorageKey" value="" />
+          <Variable name="DestinyApiKey" value="" />
         </Environment>
       </Task>
     </Startup>

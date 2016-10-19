@@ -64,7 +64,7 @@
     <Content Include="Ghostbot.Azure.WorkerRoleContent\NDP461-KB3102438-Web.exe">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Ghostbot.Azure.WorkerRoleContent\Startup.cmd">
+    <Content Include="Ghostbot.Azure.WorkerRoleContent\EnvironmentVariables.cmd">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>

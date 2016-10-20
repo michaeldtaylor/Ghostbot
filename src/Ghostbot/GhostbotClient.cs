@@ -7,11 +7,14 @@ using Discord.Commands;
 using Discord.Modules;
 using Ghostbot.Configuration;
 using Ghostbot.Modules;
+using NLog;
 
 namespace Ghostbot
 {
     public class GhostbotClient
     {
+        static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         const string AppName = "Ghostbot";
         const string AppUrl = "https://github.com/michaeldtaylor/Ghostbot";
 
@@ -63,7 +66,7 @@ namespace Ghostbot
         {
             try
             {
-                Console.WriteLine("Starting Ghostbot...");
+                Logger.Info("Starting Ghostbot...");
 
                 string token;
 
@@ -77,15 +80,13 @@ namespace Ghostbot
             }
             catch (GhostbotDiscordTokenProviderException ex)
             {
-                Console.WriteLine(ex.Message);
+                Logger.Error(ex.Message);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("The Discord Bot token appears to be invalid.");
-                Console.WriteLine(ex.Message);
+                Logger.Error("The Discord Bot token appears to be invalid.");
+                Logger.Error(ex.Message);
             }
-
-            Console.ReadKey();
         }
     }
 }

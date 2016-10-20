@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace Ghostbot.Azure.WorkerRole
@@ -12,18 +13,11 @@ namespace Ghostbot.Azure.WorkerRole
 
         public override void Run()
         {
-            Trace.TraceInformation("Ghostbot WorkerRoles is running");
+            Trace.TraceInformation("Ghostbot WorkerRole is running");
 
             try
             {
-                while (!_cancellationTokenSource.Token.IsCancellationRequested)
-                {
-                    Trace.TraceInformation("Working");
-
-                    var ghostbotClient = new GhostbotClient();
-
-                    ghostbotClient.Start();
-                }
+                RunAsync(_cancellationTokenSource.Token).Wait();
             }
             finally
             {
@@ -41,14 +35,14 @@ namespace Ghostbot.Azure.WorkerRole
 
             var result = base.OnStart();
 
-            Trace.TraceInformation("Ghostbot WorkerRoles has been started");
+            Trace.TraceInformation("Ghostbot WorkerRole has been started");
 
             return result;
         }
 
         public override void OnStop()
         {
-            Trace.TraceInformation("Ghostbot WorkerRoles is stopping");
+            Trace.TraceInformation("Ghostbot WorkerRole is stopping");
 
             _cancellationTokenSource.Cancel();
             _runCompleteEvent.WaitOne();
@@ -56,6 +50,21 @@ namespace Ghostbot.Azure.WorkerRole
             base.OnStop();
 
             Trace.TraceInformation("Ghostbot WorkerRoles has stopped");
+        }
+
+        static async Task RunAsync(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested)
+            {
+                Trace.TraceInformation("Working");
+
+                await Task.Run(() =>
+                {
+                    var ghostbotClient = new GhostbotClient();
+
+                    ghostbotClient.Start();
+                }, token);
+            }
         }
     }
 }

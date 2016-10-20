@@ -1,4 +1,4 @@
-﻿setx GhostbotDiscordToken %GhostbotDiscordToken% /M
+setx GhostbotDiscordToken %GhostbotDiscordToken% /M
 setx GhostbotAzureStorageKey %GhostbotAzureStorageKey% /M
 setx DestinyApiKey %DestinyApiKey% /M
 

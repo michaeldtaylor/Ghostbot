@@ -6,7 +6,7 @@ namespace Ghostbot.Configuration
     {
         public string GetConfigurationVariable(string variable)
         {
-            var token = Environment.GetEnvironmentVariable(variable, EnvironmentVariableTarget.User);
+            var token = Environment.GetEnvironmentVariable(variable, EnvironmentVariableTarget.Machine);
 
             if (string.IsNullOrEmpty(token))
             {

@@ -1,4 +1,4 @@
-﻿namespace Ghostbot
+﻿namespace Ghostbot.Console
 {
     public class Program
     {

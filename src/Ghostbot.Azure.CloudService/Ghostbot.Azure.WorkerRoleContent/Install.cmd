@@ -1,4 +1,4 @@
-﻿REM Set the value of netfx to install appropriate .NET Framework. 
+REM Set the value of netfx to install appropriate .NET Framework. 
 REM ***** To install .NET 4.5.2 set the variable netfx to "NDP452" *****
 REM ***** To install .NET 4.6 set the variable netfx to "NDP46" *****
 REM ***** To install .NET 4.6.1 set the variable netfx to "NDP461" *****

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3D15E72C-0BA6-4275-82D4-8091D9CA6658}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ghostbot</RootNamespace>
     <AssemblyName>Ghostbot</AssemblyName>
@@ -190,7 +190,6 @@
     <Compile Include="Modules\Simple\ByeCommand.cs" />
     <Compile Include="Modules\Simple\GreetCommand.cs" />
     <Compile Include="Modules\Simple\SimpleModule.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

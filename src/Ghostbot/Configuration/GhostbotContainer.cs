@@ -26,11 +26,14 @@ namespace Ghostbot.Configuration
             builder.RegisterType<DiscordUserRepository>()
                 .As<IDiscordUserRepository>();
 
+            builder.RegisterType<PlatformParser>()
+                .As<IPlatformParser>();
+
             builder.RegisterType<GhostbotDiscordTokenProvider>()
                 .SingleInstance()
                 .AsSelf();
 
-            builder.RegisterType<GhostbotAzureStorageKeyProvider>()
+            builder.RegisterType<GhostbotAzureStorageConnectionStringProvider>()
                 .SingleInstance()
                 .AsSelf();
 

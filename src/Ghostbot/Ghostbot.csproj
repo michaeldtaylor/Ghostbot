@@ -137,7 +137,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Configuration\AssemblyHelper.cs" />
-    <Compile Include="Configuration\GhostbotAzureStorageKeyProvider.cs" />
+    <Compile Include="Configuration\GhostbotAzureStorageConnectionStringProvider.cs" />
     <Compile Include="Configuration\IDiscordModuleConguration.cs" />
     <Compile Include="Configuration\DiscordModuleConfigurationProvider.cs" />
     <Compile Include="Configuration\DestinyApiKeyProviderException.cs" />
@@ -150,6 +150,9 @@
     <Compile Include="Configuration\GhostbotContainer.cs" />
     <Compile Include="Configuration\ConfigurationReader.cs" />
     <Compile Include="Domain\DiscordUser.cs" />
+    <Compile Include="Domain\PlatformParser.cs" />
+    <Compile Include="Domain\UnknownPlatformException.cs" />
+    <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="GhostbotClient.cs" />
     <Compile Include="Infrastructure\DiscordUserRepository.cs" />
     <Compile Include="Domain\IDiscordUserRepository.cs" />
@@ -184,6 +187,7 @@
     <Compile Include="Modules\Account\SetCommand.cs" />
     <Compile Include="Modules\Guardian\GuardianModuleConfiguration.cs" />
     <Compile Include="Modules\Guardian\GuardianModule.cs" />
+    <Compile Include="Domain\IPlatformParser.cs" />
     <Compile Include="Modules\Guardian\ListCommand.cs" />
     <Compile Include="Modules\Guardian\View\GuardianRenderer.cs" />
     <Compile Include="Modules\Simple\SimpleModuleConfiguration.cs" />

@@ -5,6 +5,7 @@ using Destiny.Net.Core.Model;
 using Discord.Commands;
 using Ghostbot.Configuration;
 using Ghostbot.Domain;
+using Ghostbot.Infrastructure;
 using Ghostbot.Modules.Guardian.View;
 
 namespace Ghostbot.Modules.Guardian
@@ -13,14 +14,16 @@ namespace Ghostbot.Modules.Guardian
     {
         readonly DestinyClient _destinyClient;
         readonly IDiscordUserRepository _discordUserRepository;
+        readonly IPlatformParser _platformParser;
 
-        public ListCommand(DestinyApiKeyProvider destinyApiKeyProvider, IDiscordUserRepository discordUserRepository)
+        public ListCommand(DestinyApiKeyProvider destinyApiKeyProvider, IDiscordUserRepository discordUserRepository, IPlatformParser platformParser)
         {
             AddParameter(new DiscordParameter("username", ParameterType.Optional));
             AddParameter(new DiscordParameter("platform", ParameterType.Optional));
 
             _destinyClient = new DestinyClient(destinyApiKeyProvider.GetApiKey());
             _discordUserRepository = discordUserRepository;
+            _platformParser = platformParser;
         }
 
         protected override string Name => "list";
@@ -38,17 +41,18 @@ namespace Ghostbot.Modules.Guardian
             if (discordUser != null)
             {
                 username = discordUser.DestinyUsername;
-                platform = (Platform)Enum.Parse(typeof(Platform), discordUser.DestintPlatform);
+                platform = discordUser.DestintPlatform.ToEnum<Platform>();
             }
 
-            if (args.Args.Length == 2)
+            if (!string.IsNullOrEmpty(args.GetArg("username")) && !string.IsNullOrEmpty(args.GetArg("platform")))
             {
+                username = args.GetArg("username");
+                
                 try
                 {
-                    username = args.GetArg("username");
-                    platform = (Platform)Enum.Parse(typeof(Platform), args.GetArg("platform"));
+                    platform = _platformParser.GetPlatform(args.GetArg("platform"));
                 }
-                catch (Exception)
+                catch (PlatformNotSupportedException)
                 {
                     await args.Channel.SendMessage($"{discordId} your Destiny username or platform is missing, or platform is invalid! Please try again.");
                     return;

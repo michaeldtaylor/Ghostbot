@@ -1,21 +1,19 @@
 ﻿using Ghostbot.Configuration;
 using Ghostbot.Domain;
 using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Ghostbot.Infrastructure
 {
     public class DiscordUserRepository : IDiscordUserRepository
     {
-        const string StorageAccountName = "ghostbot";
-        const string DiscordUsersTableName = "discordusers";
+        const string DiscordUsersTableName = "DiscordUsers";
 
-        readonly GhostbotAzureStorageKeyProvider _ghostbotAzureStorageKeyProvider;
+        readonly GhostbotAzureStorageConnectionStringProvider _ghostbotAzureStorageConnectionStringProvider;
 
-        public DiscordUserRepository(GhostbotAzureStorageKeyProvider ghostbotAzureStorageKeyProvider)
+        public DiscordUserRepository(GhostbotAzureStorageConnectionStringProvider ghostbotAzureStorageConnectionStringProvider)
         {
-            _ghostbotAzureStorageKeyProvider = ghostbotAzureStorageKeyProvider;
+            _ghostbotAzureStorageConnectionStringProvider = ghostbotAzureStorageConnectionStringProvider;
         }
 
         public DiscordUser FindById(string discordId)
@@ -37,8 +35,8 @@ namespace Ghostbot.Infrastructure
 
         CloudTable GetTable()
         {
-            var storageKey = _ghostbotAzureStorageKeyProvider.GetStorageKey();
-            var storageAccount = new CloudStorageAccount(new StorageCredentials(StorageAccountName, storageKey), true);
+            var connectionString = _ghostbotAzureStorageConnectionStringProvider.GetConnectionString();
+            var storageAccount = CloudStorageAccount.Parse(connectionString);
             var tableClient = storageAccount.CreateCloudTableClient();
             var table = tableClient.GetTableReference(DiscordUsersTableName);
 

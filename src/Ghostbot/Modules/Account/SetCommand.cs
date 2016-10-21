@@ -12,14 +12,16 @@ namespace Ghostbot.Modules.Account
     {
         readonly DestinyClient _destinyClient;
         readonly IDiscordUserRepository _discordUserRepository;
+        readonly IPlatformParser _platformParser;
 
-        public SetCommand(DestinyApiKeyProvider destinyApiKeyProvider, IDiscordUserRepository discordUserRepository)
+        public SetCommand(DestinyApiKeyProvider destinyApiKeyProvider, IDiscordUserRepository discordUserRepository, IPlatformParser platformParser)
         {
             AddParameter(new DiscordParameter("username"));
             AddParameter(new DiscordParameter("platform"));
 
             _destinyClient = new DestinyClient(destinyApiKeyProvider.GetApiKey());
             _discordUserRepository = discordUserRepository;
+            _platformParser = platformParser;
         }
 
         protected override string Name => "set";
@@ -36,7 +38,7 @@ namespace Ghostbot.Modules.Account
             try
             {
                 username = args.GetArg("username");
-                platform = (Platform)Enum.Parse(typeof(Platform), args.GetArg("platform"));
+                platform = _platformParser.GetPlatform(args.GetArg("platform"));
             }
             catch (Exception)
             {

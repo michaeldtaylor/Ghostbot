@@ -15,7 +15,7 @@ Markdown Text 101: https://support.discordapp.com/hc/en-us/articles/210298617?fl
 The following Windows environment variables must be set:
 
 - GhostbotDiscordToken (to do anything!)
-- GhostbotAzureStorageKey (to use $account set module)
+- GhostbotAzureStorageConnectionString (to use '$account set' command)
 - DestinyApiKey (to use any module that consumes the Destiny API - most of them!)
 
 How to add a Bot to a server (Guild):

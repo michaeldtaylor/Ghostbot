@@ -1,20 +1,24 @@
 ﻿{
-  "SimpleModuleConfiguration": {
-    "IsActive": false,
-    "Filter": "None"
-  },
-  "AccountModuleConfiguration": {
-    "IsActive": true,
-    "Filter": "None"
-  },
-  "GuardianModuleConfiguration": {
-    "IsActive": true,
-    "Filter": "None"
-  },
-  "ClanWarsModuleConfiguration": {
-    "IsActive": true,
-    "Filter": "None",
-    "DefaultChallengeId": 150,
-    "DefaultStatusFormat": "Narrow"
-  }
+    "SimpleModuleConfiguration": {
+        "IsActive": false,
+        "Filter": "None"
+    },
+    "AccountModuleConfiguration": {
+        "IsActive": true,
+        "Filter": "None"
+    },
+    "GuardianModuleConfiguration": {
+        "IsActive": true,
+        "Filter": "None"
+    },
+    "ClanModuleConfiguration": {
+        "IsActive": false,
+        "Filter": "None"
+    },
+    "ClanWarsModuleConfiguration": {
+        "IsActive": true,
+        "Filter": "None",
+        "DefaultChallengeId": 150,
+        "DefaultStatusFormat": "Narrow"
+    }
 }

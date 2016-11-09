@@ -11,7 +11,7 @@ namespace Ghostbot.Modules.ClanWars
             AddCommand<ClanEventLeaderboardCommand>();
         }
 
-        public override string Name => "Destiny Clan Wars";
+        public override string Name => "Clan Wars";
         protected override string Prefix => "clanwars";
     }
 }

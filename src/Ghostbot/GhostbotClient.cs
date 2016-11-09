@@ -31,12 +31,12 @@ namespace Ghostbot
                 x.EnablePreUpdateEvents = true;
                 x.LogLevel = LogSeverity.Debug;
             })
-                .UsingModules()
-                .UsingCommands(x =>
-                {
-                    x.PrefixChar = '$';
-                    x.HelpMode = HelpMode.Public;
-                });
+            .UsingModules()
+            .UsingCommands(x =>
+            {
+                x.PrefixChar = '$';
+                x.HelpMode = HelpMode.Public;
+            });
 
             RegisterActiveModules();
 

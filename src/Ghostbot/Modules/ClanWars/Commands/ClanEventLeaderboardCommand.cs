@@ -130,33 +130,24 @@ namespace Ghostbot.Modules.ClanWars.Commands
             return new Event(eventId, title, description, modifers);
         }
 
-        static Clan ParseClan(int clanId, HtmlNode clanNameNode)
+        static Model.Clan ParseClan(int clanId, HtmlNode clanNameNode)
         {
-            return new Clan(clanNameNode.InnerText.Split(':')[1].Trim(), new Uri(ClanWarsApi.BaseUri, ClanWarsApi.GetClanRelativeUri(clanId)));
+            return new Model.Clan(clanNameNode.InnerText.Split(':')[1].Trim(), new Uri(ClanWarsApi.BaseUri, ClanWarsApi.GetClanRelativeUri(clanId)));
         }
 
-        static ClanEventLeaderboardStatistics ParseStatistics(HtmlNodeCollection statisticsNodes)
+        static IEnumerable<LeaderboardStatistic> ParseStatistics(HtmlNodeCollection statisticsNodes)
         {
-            var statistics = statisticsNodes.Select(ParseStatisticsNode).ToList();
-
-            var mostMatches = statistics[0];
-            var mostPoints = statistics[1];
-            var highestKd = statistics[2];
-            var highestWinPercentage = statistics[3];
-            var highestPointsPerMatch = statistics[4];
-            var pewPew = statistics.Count > 6 ? statistics[5] : null;
-            var orbs = statistics.Count > 7 ? statistics[6] : null;
-
-            return new ClanEventLeaderboardStatistics(mostMatches, mostPoints, highestKd, highestWinPercentage, highestPointsPerMatch, pewPew, orbs);
+            return statisticsNodes.Select(ParseStatisticsNode).ToList();
         }
 
-        static LeaderboardElement ParseStatisticsNode(HtmlNode statisticsNode)
+        static LeaderboardStatistic ParseStatisticsNode(HtmlNode statisticsNode)
         {
             var statisticsParts = statisticsNode.InnerHtml.Trim().Split(new[] { "<span>", "</span>" }, StringSplitOptions.RemoveEmptyEntries);
             var playerResultParts = statisticsParts[1].Split(new[] { "(", ")" }, StringSplitOptions.RemoveEmptyEntries);
 
-            return new LeaderboardElement
+            return new LeaderboardStatistic
             {
+                Name = statisticsParts[0],
                 Player = playerResultParts[0],
                 Result = playerResultParts[1]
             };

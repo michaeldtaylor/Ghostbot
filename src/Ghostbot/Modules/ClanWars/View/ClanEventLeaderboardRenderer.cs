@@ -14,20 +14,12 @@ namespace Ghostbot.Modules.ClanWars.View
 
             builder.AppendLine(clanEventLeaderboard.Clan.Title);
             builder.AppendLine();
-            builder.AppendLine($"Most Matches:       {statistics.MostMatches.Player.PadRight(20)} ({statistics.MostMatches.Result})");
-            builder.AppendLine($"Most Points:        {statistics.MostPoints.Player.PadRight(20)} ({statistics.MostPoints.Result})");
-            builder.AppendLine($"Hightest K/D:       {statistics.HighestKd.Player.PadRight(20)} ({statistics.HighestKd.Result})");
-            builder.AppendLine($"Highest Win %:      {statistics.HighestWinPercentage.Player.PadRight(20)} ({statistics.HighestWinPercentage.Result})");
-            builder.AppendLine($"Highest PPM:        {statistics.HighestPointsPerMatch.Player.PadRight(20)} ({statistics.HighestPointsPerMatch.Result})");
 
-            if (statistics.PewPew != null)
+            foreach (var statistic in statistics)
             {
-                builder.AppendLine($"Pew Pew:            {statistics.PewPew.Player.PadRight(20)} ({statistics.PewPew.Result})");
-            }
+                var paddedName = $"{statistic.Name}:";
 
-            if (statistics.Orbs != null)
-            {
-                builder.AppendLine($"Orbs:               {statistics.Orbs.Player.PadRight(20)} ({statistics.Orbs.Result})");
+                builder.AppendLine($"{paddedName.PadRight(20)}{statistic.Player.PadRight(20)}({statistic.Result})");
             }
 
             builder.AppendLine();
